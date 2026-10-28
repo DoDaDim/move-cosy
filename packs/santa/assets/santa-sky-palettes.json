@@ -1,0 +1,39 @@
+{
+ "_note": "top/bottom of each Santa stage's vertical sky gradient (y 0 -> 640); 'aurora' = endless zone",
+ "lapland": {
+  "top": "#1B2348",
+  "bottom": "#3E5E8A"
+ },
+ "london": {
+  "top": "#1F1D44",
+  "bottom": "#5B5596"
+ },
+ "newyork": {
+  "top": "#1C2044",
+  "bottom": "#4C3E7A"
+ },
+ "rio": {
+  "top": "#241A4A",
+  "bottom": "#7A4E8E"
+ },
+ "egypt": {
+  "top": "#2A2350",
+  "bottom": "#C98A7A"
+ },
+ "tokyo": {
+  "top": "#1A1840",
+  "bottom": "#5A3E86"
+ },
+ "sydney": {
+  "top": "#6EC3F0",
+  "bottom": "#FFE3B8"
+ },
+ "antarctica": {
+  "top": "#16264A",
+  "bottom": "#4E7AA8"
+ },
+ "aurora": {
+  "top": "#0E1430",
+  "bottom": "#2E2A66"
+ }
+}

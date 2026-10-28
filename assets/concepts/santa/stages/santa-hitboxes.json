@@ -1,0 +1,3177 @@
+{
+ "obs-lapland-aurora-body": {
+  "rects": [
+   [
+    14,
+    0,
+    52,
+    64
+   ]
+  ]
+ },
+ "obs-lapland-aurora-cap-bottom": {
+  "rects": [
+   [
+    14,
+    0,
+    52,
+    52
+   ],
+   [
+    20,
+    52,
+    40,
+    8
+   ]
+  ]
+ },
+ "obs-lapland-sprucebough-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-lapland-sprucebough-cap-bottom": {
+  "rects": [
+   [
+    31,
+    0,
+    18,
+    12
+   ],
+   [
+    4,
+    12,
+    72,
+    10
+   ],
+   [
+    10,
+    22,
+    60,
+    8
+   ],
+   [
+    20,
+    30,
+    40,
+    8
+   ]
+  ]
+ },
+ "obs-lapland-pinebough-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-lapland-pinebough-cap-bottom": {
+  "rects": [
+   [
+    31,
+    0,
+    18,
+    12
+   ],
+   [
+    4,
+    12,
+    72,
+    10
+   ],
+   [
+    38,
+    22,
+    4,
+    8
+   ],
+   [
+    28,
+    28,
+    24,
+    34
+   ]
+  ]
+ },
+ "obs-lapland-pine-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-lapland-pine-cap-top": {
+  "rects": [
+   [
+    12,
+    60,
+    56,
+    20
+   ],
+   [
+    18,
+    40,
+    44,
+    20
+   ],
+   [
+    26,
+    26,
+    28,
+    14
+   ],
+   [
+    34,
+    16,
+    12,
+    10
+   ]
+  ]
+ },
+ "obs-lapland-workshop-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-lapland-workshop-cap-top": {
+  "rects": [
+   [
+    12,
+    30,
+    56,
+    50
+   ],
+   [
+    8,
+    20,
+    64,
+    12
+   ]
+  ]
+ },
+ "obs-lapland-gifts-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-lapland-gifts-cap-top": {
+  "rects": [
+   [
+    10,
+    48,
+    60,
+    32
+   ],
+   [
+    18,
+    16,
+    44,
+    32
+   ],
+   [
+    28,
+    6,
+    24,
+    10
+   ]
+  ]
+ },
+ "obs-london-girder-body": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    64
+   ]
+  ]
+ },
+ "obs-london-girder-cap-bottom": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    16
+   ],
+   [
+    4,
+    14,
+    72,
+    16
+   ],
+   [
+    10,
+    30,
+    60,
+    8
+   ],
+   [
+    20,
+    38,
+    40,
+    8
+   ]
+  ]
+ },
+ "obs-london-snowcloud-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-london-snowcloud-cap-bottom": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    40
+   ]
+  ],
+  "circles": [
+   [
+    24,
+    40,
+    14
+   ],
+   [
+    56,
+    40,
+    14
+   ],
+   [
+    40,
+    46,
+    16
+   ]
+  ]
+ },
+ "obs-london-lights-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-london-lights-cap-bottom": {
+  "rects": [
+   [
+    38,
+    0,
+    4,
+    16
+   ],
+   [
+    35,
+    14,
+    10,
+    12
+   ]
+  ],
+  "circles": [
+   [
+    40,
+    44,
+    20
+   ]
+  ]
+ },
+ "obs-london-chimney-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-london-chimney-cap-top": {
+  "rects": [
+   [
+    12,
+    28,
+    56,
+    52
+   ],
+   [
+    8,
+    22,
+    64,
+    8
+   ],
+   [
+    18,
+    8,
+    14,
+    14
+   ],
+   [
+    46,
+    4,
+    16,
+    18
+   ]
+  ]
+ },
+ "obs-london-phonebox-body": {
+  "rects": [
+   [
+    14,
+    0,
+    52,
+    64
+   ]
+  ]
+ },
+ "obs-london-phonebox-cap-top": {
+  "rects": [
+   [
+    14,
+    30,
+    52,
+    50
+   ],
+   [
+    12,
+    20,
+    56,
+    10
+   ],
+   [
+    18,
+    10,
+    44,
+    10
+   ],
+   [
+    35,
+    4,
+    10,
+    6
+   ]
+  ]
+ },
+ "obs-london-bus-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-london-bus-cap-top": {
+  "rects": [
+   [
+    10,
+    26,
+    60,
+    54
+   ],
+   [
+    14,
+    12,
+    52,
+    14
+   ]
+  ]
+ },
+ "obs-newyork-cranehook-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-newyork-cranehook-cap-bottom": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    10
+   ],
+   [
+    22,
+    8,
+    36,
+    22
+   ],
+   [
+    34,
+    30,
+    12,
+    16
+   ],
+   [
+    24,
+    46,
+    32,
+    30
+   ]
+  ]
+ },
+ "obs-newyork-trafficlight-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-newyork-trafficlight-cap-bottom": {
+  "rects": [
+   [
+    38,
+    0,
+    4,
+    16
+   ],
+   [
+    26,
+    14,
+    28,
+    4
+   ],
+   [
+    29,
+    18,
+    22,
+    48
+   ]
+  ]
+ },
+ "obs-newyork-elgirder-body": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    64
+   ]
+  ]
+ },
+ "obs-newyork-elgirder-cap-bottom": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    16
+   ],
+   [
+    4,
+    14,
+    72,
+    16
+   ],
+   [
+    10,
+    30,
+    60,
+    8
+   ],
+   [
+    20,
+    38,
+    40,
+    8
+   ]
+  ]
+ },
+ "obs-newyork-skyscraper-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-newyork-skyscraper-cap-top": {
+  "rects": [
+   [
+    12,
+    50,
+    56,
+    30
+   ],
+   [
+    20,
+    34,
+    40,
+    16
+   ],
+   [
+    28,
+    20,
+    24,
+    14
+   ],
+   [
+    37,
+    4,
+    6,
+    16
+   ]
+  ]
+ },
+ "obs-newyork-xmastree-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-newyork-xmastree-cap-top": {
+  "rects": [
+   [
+    12,
+    60,
+    56,
+    20
+   ],
+   [
+    18,
+    40,
+    44,
+    20
+   ],
+   [
+    26,
+    26,
+    28,
+    14
+   ],
+   [
+    34,
+    16,
+    12,
+    10
+   ]
+  ]
+ },
+ "obs-newyork-taxi-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-newyork-taxi-cap-top": {
+  "rects": [
+   [
+    10,
+    54,
+    60,
+    26
+   ],
+   [
+    10,
+    30,
+    60,
+    26
+   ],
+   [
+    16,
+    20,
+    48,
+    10
+   ],
+   [
+    30,
+    12,
+    20,
+    8
+   ]
+  ]
+ },
+ "obs-rio-cablecar-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-rio-cablecar-cap-bottom": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    18
+   ],
+   [
+    14,
+    18,
+    52,
+    52
+   ]
+  ]
+ },
+ "obs-rio-bunting-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-rio-bunting-cap-bottom": {
+  "rects": [
+   [
+    38,
+    0,
+    4,
+    16
+   ],
+   [
+    24,
+    16,
+    32,
+    46
+   ],
+   [
+    33,
+    58,
+    14,
+    14
+   ]
+  ]
+ },
+ "obs-rio-rockledge-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-rio-rockledge-cap-bottom": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    30
+   ],
+   [
+    4,
+    30,
+    72,
+    16
+   ],
+   [
+    16,
+    46,
+    48,
+    10
+   ],
+   [
+    34,
+    56,
+    12,
+    12
+   ]
+  ]
+ },
+ "obs-rio-sugarloaf-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-rio-sugarloaf-cap-top": {
+  "rects": [
+   [
+    10,
+    46,
+    60,
+    34
+   ],
+   [
+    14,
+    26,
+    52,
+    20
+   ],
+   [
+    22,
+    14,
+    36,
+    12
+   ],
+   [
+    30,
+    9,
+    20,
+    6
+   ]
+  ]
+ },
+ "obs-rio-palm-body": {
+  "rects": [
+   [
+    31,
+    0,
+    18,
+    64
+   ]
+  ]
+ },
+ "obs-rio-palm-cap-top": {
+  "rects": [
+   [
+    31,
+    40,
+    18,
+    40
+   ],
+   [
+    28,
+    30,
+    24,
+    12
+   ],
+   [
+    14,
+    22,
+    52,
+    8
+   ]
+  ]
+ },
+ "obs-rio-drums-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-rio-drums-cap-top": {
+  "rects": [
+   [
+    10,
+    26,
+    60,
+    54
+   ],
+   [
+    12,
+    20,
+    56,
+    8
+   ]
+  ]
+ },
+ "obs-egypt-balloon-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-egypt-balloon-cap-bottom": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    12
+   ],
+   [
+    16,
+    12,
+    48,
+    10
+   ],
+   [
+    24,
+    22,
+    32,
+    12
+   ],
+   [
+    26,
+    32,
+    28,
+    18
+   ],
+   [
+    20,
+    48,
+    40,
+    26
+   ]
+  ]
+ },
+ "obs-egypt-fanous-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-egypt-fanous-cap-bottom": {
+  "rects": [
+   [
+    38,
+    0,
+    4,
+    16
+   ],
+   [
+    30,
+    14,
+    20,
+    6
+   ],
+   [
+    24,
+    20,
+    32,
+    42
+   ],
+   [
+    32,
+    62,
+    16,
+    6
+   ]
+  ]
+ },
+ "obs-egypt-templeledge-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-egypt-templeledge-cap-bottom": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    30
+   ],
+   [
+    4,
+    30,
+    72,
+    16
+   ],
+   [
+    38,
+    46,
+    4,
+    8
+   ],
+   [
+    26,
+    54,
+    28,
+    18
+   ]
+  ]
+ },
+ "obs-egypt-pyramid-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-egypt-pyramid-cap-top": {
+  "rects": [
+   [
+    10,
+    64,
+    60,
+    16
+   ],
+   [
+    16,
+    50,
+    48,
+    14
+   ],
+   [
+    22,
+    36,
+    36,
+    14
+   ],
+   [
+    28,
+    22,
+    24,
+    14
+   ],
+   [
+    34,
+    10,
+    12,
+    12
+   ]
+  ]
+ },
+ "obs-egypt-obelisk-body": {
+  "rects": [
+   [
+    22,
+    0,
+    36,
+    64
+   ]
+  ]
+ },
+ "obs-egypt-obelisk-cap-top": {
+  "rects": [
+   [
+    22,
+    30,
+    36,
+    50
+   ],
+   [
+    28,
+    20,
+    24,
+    10
+   ],
+   [
+    34,
+    10,
+    12,
+    10
+   ]
+  ]
+ },
+ "obs-egypt-camel-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-egypt-camel-cap-top": {
+  "rects": [
+   [
+    10,
+    56,
+    60,
+    24
+   ],
+   [
+    14,
+    38,
+    46,
+    18
+   ],
+   [
+    24,
+    30,
+    26,
+    8
+   ]
+  ],
+  "circles": [
+   [
+    61,
+    24,
+    9
+   ]
+  ]
+ },
+ "obs-tokyo-chochin-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-tokyo-chochin-cap-bottom": {
+  "rects": [
+   [
+    38,
+    0,
+    4,
+    16
+   ],
+   [
+    30,
+    14,
+    20,
+    6
+   ],
+   [
+    22,
+    20,
+    36,
+    44
+   ],
+   [
+    30,
+    64,
+    20,
+    6
+   ]
+  ]
+ },
+ "obs-tokyo-neongantry-body": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    64
+   ]
+  ]
+ },
+ "obs-tokyo-neongantry-cap-bottom": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    16
+   ],
+   [
+    4,
+    14,
+    72,
+    16
+   ],
+   [
+    20,
+    30,
+    4,
+    8
+   ],
+   [
+    56,
+    30,
+    4,
+    8
+   ],
+   [
+    10,
+    38,
+    60,
+    30
+   ]
+  ]
+ },
+ "obs-tokyo-matsubough-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-tokyo-matsubough-cap-bottom": {
+  "rects": [
+   [
+    31,
+    0,
+    18,
+    12
+   ],
+   [
+    4,
+    12,
+    72,
+    10
+   ],
+   [
+    38,
+    22,
+    4,
+    6
+   ],
+   [
+    30,
+    28,
+    20,
+    18
+   ],
+   [
+    36,
+    46,
+    8,
+    16
+   ]
+  ]
+ },
+ "obs-tokyo-pagoda-body": {
+  "rects": [
+   [
+    14,
+    0,
+    52,
+    64
+   ]
+  ]
+ },
+ "obs-tokyo-pagoda-cap-top": {
+  "rects": [
+   [
+    14,
+    52,
+    52,
+    28
+   ],
+   [
+    10,
+    40,
+    60,
+    12
+   ],
+   [
+    36,
+    8,
+    8,
+    32
+   ]
+  ]
+ },
+ "obs-tokyo-vending-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-tokyo-vending-cap-top": {
+  "rects": [
+   [
+    12,
+    24,
+    56,
+    56
+   ]
+  ]
+ },
+ "obs-tokyo-manekineko-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-tokyo-manekineko-cap-top": {
+  "rects": [
+   [
+    10,
+    48,
+    60,
+    32
+   ],
+   [
+    24,
+    26,
+    32,
+    22
+   ],
+   [
+    27,
+    10,
+    26,
+    16
+   ]
+  ]
+ },
+ "obs-sydney-bridgehanger-body": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    64
+   ]
+  ]
+ },
+ "obs-sydney-bridgehanger-cap-bottom": {
+  "rects": [
+   [
+    26,
+    0,
+    28,
+    16
+   ],
+   [
+    4,
+    14,
+    72,
+    16
+   ],
+   [
+    38,
+    30,
+    4,
+    12
+   ],
+   [
+    28,
+    42,
+    24,
+    26
+   ]
+  ]
+ },
+ "obs-sydney-gumbranch-body": {
+  "rects": [
+   [
+    28,
+    0,
+    24,
+    64
+   ]
+  ]
+ },
+ "obs-sydney-gumbranch-cap-bottom": {
+  "rects": [
+   [
+    31,
+    0,
+    18,
+    12
+   ],
+   [
+    4,
+    12,
+    72,
+    10
+   ],
+   [
+    26,
+    22,
+    28,
+    34
+   ]
+  ]
+ },
+ "obs-sydney-summercloud-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-sydney-summercloud-cap-bottom": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    40
+   ]
+  ],
+  "circles": [
+   [
+    24,
+    40,
+    14
+   ],
+   [
+    56,
+    40,
+    14
+   ],
+   [
+    40,
+    46,
+    16
+   ]
+  ]
+ },
+ "obs-sydney-opera-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-sydney-opera-cap-top": {
+  "rects": [
+   [
+    10,
+    50,
+    60,
+    30
+   ],
+   [
+    14,
+    34,
+    52,
+    16
+   ],
+   [
+    22,
+    20,
+    34,
+    14
+   ],
+   [
+    30,
+    8,
+    24,
+    12
+   ]
+  ]
+ },
+ "obs-sydney-surfboards-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-sydney-surfboards-cap-top": {
+  "rects": [
+   [
+    10,
+    32,
+    60,
+    48
+   ],
+   [
+    12,
+    26,
+    16,
+    6
+   ],
+   [
+    32,
+    12,
+    16,
+    20
+   ],
+   [
+    52,
+    20,
+    16,
+    12
+   ]
+  ]
+ },
+ "obs-sydney-sandcastle-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-sydney-sandcastle-cap-top": {
+  "rects": [
+   [
+    10,
+    40,
+    60,
+    40
+   ],
+   [
+    10,
+    32,
+    10,
+    8
+   ],
+   [
+    60,
+    32,
+    10,
+    8
+   ],
+   [
+    26,
+    16,
+    28,
+    24
+   ],
+   [
+    26,
+    10,
+    28,
+    6
+   ]
+  ]
+ },
+ "obs-antarctica-serac-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-antarctica-serac-cap-bottom": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    46
+   ],
+   [
+    14,
+    46,
+    52,
+    8
+   ],
+   [
+    24,
+    54,
+    32,
+    8
+   ]
+  ]
+ },
+ "obs-antarctica-blizzard-body": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    64
+   ]
+  ]
+ },
+ "obs-antarctica-blizzard-cap-bottom": {
+  "rects": [
+   [
+    12,
+    0,
+    56,
+    40
+   ]
+  ],
+  "circles": [
+   [
+    24,
+    40,
+    14
+   ],
+   [
+    56,
+    40,
+    14
+   ],
+   [
+    40,
+    46,
+    16
+   ]
+  ]
+ },
+ "obs-antarctica-aurora-body": {
+  "rects": [
+   [
+    14,
+    0,
+    52,
+    64
+   ]
+  ]
+ },
+ "obs-antarctica-aurora-cap-bottom": {
+  "rects": [
+   [
+    14,
+    0,
+    52,
+    52
+   ],
+   [
+    20,
+    52,
+    40,
+    8
+   ]
+  ]
+ },
+ "obs-antarctica-iceberg-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-antarctica-iceberg-cap-top": {
+  "rects": [
+   [
+    10,
+    50,
+    60,
+    30
+   ],
+   [
+    16,
+    36,
+    50,
+    14
+   ],
+   [
+    26,
+    22,
+    34,
+    14
+   ],
+   [
+    34,
+    10,
+    12,
+    12
+   ]
+  ]
+ },
+ "obs-antarctica-penguins-body": {
+  "rects": [
+   [
+    14,
+    0,
+    52,
+    64
+   ]
+  ]
+ },
+ "obs-antarctica-penguins-cap-top": {
+  "rects": [
+   [
+    14,
+    48,
+    52,
+    32
+   ],
+   [
+    16,
+    18,
+    48,
+    32
+   ],
+   [
+    26,
+    8,
+    28,
+    10
+   ]
+  ]
+ },
+ "obs-antarctica-snowman-body": {
+  "rects": [
+   [
+    10,
+    0,
+    60,
+    64
+   ]
+  ]
+ },
+ "obs-antarctica-snowman-cap-top": {
+  "rects": [
+   [
+    10,
+    52,
+    60,
+    28
+   ],
+   [
+    26,
+    4,
+    28,
+    12
+   ]
+  ],
+  "circles": [
+   [
+    40,
+    34,
+    20
+   ]
+  ]
+ },
+ "_note": "Santa's Rocket Run (concept). Same schema as assets/hitboxes.json. Column pieces at top level; check with tools/check_santa_continuity.py",
+ "columns": {
+  "_note": "Santa column sets, same schema as hitboxes.json 'columns'. Tops = -body + -cap-bottom (ceilEdge = gap edge); bottoms = -cap-top + -body (floorEdge). 'anchor' explains what each top hangs from (David's rule: every top is anchored or genuinely in the sky). 'death' = Santa death type.",
+  "obs-lapland-aurora": {
+   "files": "obs-lapland-aurora-{body,cap-bottom}",
+   "side": "top",
+   "stage": "lapland",
+   "ceilEdge": 60,
+   "anchor": "the northern lights themselves: a curtain of aurora hanging out of the sky (no hard anchor needed, it IS the sky)",
+   "death": "generic"
+  },
+  "obs-lapland-sprucebough": {
+   "files": "obs-lapland-sprucebough-{body,cap-bottom}",
+   "side": "top",
+   "stage": "lapland",
+   "ceilEdge": 38,
+   "anchor": "a giant snowy spruce bough reaching down from the top edge: the brown trunk with needle tufts comes down, forks into a wide snow-laden branch, and icicles hang beneath it",
+   "death": "icicle"
+  },
+  "obs-lapland-pinebough": {
+   "files": "obs-lapland-pinebough-{body,cap-bottom}",
+   "side": "top",
+   "stage": "lapland",
+   "ceilEdge": 62,
+   "anchor": "an elf lantern hangs on a cord from the fork of a giant pine's drooping snowy bough",
+   "death": "generic"
+  },
+  "obs-lapland-pine": {
+   "files": "obs-lapland-pine-{body,cap-top}",
+   "side": "bottom",
+   "stage": "lapland",
+   "floorEdge": 16,
+   "pumpkinSeat": [
+    40,
+    16
+   ],
+   "death": "generic",
+   "note": "snowy pine tiers; star decorative"
+  },
+  "obs-lapland-workshop": {
+   "files": "obs-lapland-workshop-{body,cap-top}",
+   "side": "bottom",
+   "stage": "lapland",
+   "floorEdge": 20,
+   "pumpkinSeat": [
+    40,
+    20
+   ],
+   "death": "chimney",
+   "note": "elf-workshop stone chimney, candy-stripe crown, wreath; smoke decorative"
+  },
+  "obs-lapland-gifts": {
+   "files": "obs-lapland-gifts-{body,cap-top}",
+   "side": "bottom",
+   "stage": "lapland",
+   "floorEdge": 6,
+   "pumpkinSeat": [
+    40,
+    8
+   ],
+   "death": "generic",
+   "note": "stacked presents; bow decorative"
+  },
+  "obs-london-girder": {
+   "files": "obs-london-girder-{body,cap-bottom}",
+   "side": "top",
+   "stage": "london",
+   "ceilEdge": 46,
+   "anchor": "icicles hang under a Tower Bridge walkway girder; the lattice hanger runs up to the walkway off-screen",
+   "death": "icicle"
+  },
+  "obs-london-snowcloud": {
+   "files": "obs-london-snowcloud-{body,cap-bottom}",
+   "side": "top",
+   "stage": "london",
+   "ceilEdge": 62,
+   "anchor": "a low snow cloud - genuinely in the sky, snowing",
+   "death": "icicle"
+  },
+  "obs-london-lights": {
+   "files": "obs-london-lights-{body,cap-bottom}",
+   "side": "top",
+   "stage": "london",
+   "ceilEdge": 64,
+   "anchor": "Regent St-style fairy lights: each tile is a wire strung between the buildings (ends fade off-column); a giant bauble hangs from the lowest wire",
+   "death": "generic"
+  },
+  "obs-london-chimney": {
+   "files": "obs-london-chimney-{body,cap-top}",
+   "side": "bottom",
+   "stage": "london",
+   "floorEdge": 4,
+   "pumpkinSeat": [
+    25,
+    6
+   ],
+   "death": "chimney",
+   "note": "brick chimney stack + pots; smoke decorative"
+  },
+  "obs-london-phonebox": {
+   "files": "obs-london-phonebox-{body,cap-top}",
+   "side": "bottom",
+   "stage": "london",
+   "floorEdge": 4,
+   "pumpkinSeat": [
+    40,
+    6
+   ],
+   "death": "generic",
+   "note": "stacked red phone boxes, domed top"
+  },
+  "obs-london-bus": {
+   "files": "obs-london-bus-{body,cap-top}",
+   "side": "bottom",
+   "stage": "london",
+   "floorEdge": 12,
+   "pumpkinSeat": [
+    40,
+    12
+   ],
+   "death": "generic",
+   "note": "double-decker windows stacked, front top deck as cap"
+  },
+  "obs-newyork-cranehook": {
+   "files": "obs-newyork-cranehook-{body,cap-bottom}",
+   "side": "top",
+   "stage": "newyork",
+   "ceilEdge": 76,
+   "anchor": "a tower crane's hook block on two cable falls from the jib above, lifting a present",
+   "death": "generic"
+  },
+  "obs-newyork-trafficlight": {
+   "files": "obs-newyork-trafficlight-{body,cap-bottom}",
+   "side": "top",
+   "stage": "newyork",
+   "ceilEdge": 66,
+   "anchor": "a traffic light hung from a span wire, with snowflake decorations on the span wires above it",
+   "death": "generic"
+  },
+  "obs-newyork-elgirder": {
+   "files": "obs-newyork-elgirder-{body,cap-bottom}",
+   "side": "top",
+   "stage": "newyork",
+   "ceilEdge": 46,
+   "anchor": "icicles under an elevated-railway girder; lattice bents run up to the track deck",
+   "death": "icicle"
+  },
+  "obs-newyork-skyscraper": {
+   "files": "obs-newyork-skyscraper-{body,cap-top}",
+   "side": "bottom",
+   "stage": "newyork",
+   "floorEdge": 4,
+   "pumpkinSeat": [
+    40,
+    20
+   ],
+   "death": "generic",
+   "note": "setback tower + spire light"
+  },
+  "obs-newyork-xmastree": {
+   "files": "obs-newyork-xmastree-{body,cap-top}",
+   "side": "bottom",
+   "stage": "newyork",
+   "floorEdge": 16,
+   "pumpkinSeat": [
+    40,
+    16
+   ],
+   "death": "generic",
+   "note": "Rockefeller-style tree with lights; star decorative"
+  },
+  "obs-newyork-taxi": {
+   "files": "obs-newyork-taxi-{body,cap-top}",
+   "side": "bottom",
+   "stage": "newyork",
+   "floorEdge": 12,
+   "pumpkinSeat": [
+    40,
+    12
+   ],
+   "death": "generic",
+   "note": "yellow cab parked on a snowbank"
+  },
+  "obs-rio-cablecar": {
+   "files": "obs-rio-cablecar-{body,cap-bottom}",
+   "side": "top",
+   "stage": "rio",
+   "ceilEdge": 70,
+   "anchor": "the Sugarloaf cable car: the hanger arm runs up to the haul rope above the screen",
+   "death": "plane"
+  },
+  "obs-rio-bunting": {
+   "files": "obs-rio-bunting-{body,cap-bottom}",
+   "side": "top",
+   "stage": "rio",
+   "ceilEdge": 72,
+   "anchor": "festa bunting on wires strung across a street between buildings, a pennant drop hanging from the lowest one",
+   "death": "generic"
+  },
+  "obs-rio-rockledge": {
+   "files": "obs-rio-rockledge-{body,cap-bottom}",
+   "side": "top",
+   "stage": "rio",
+   "ceilEdge": 68,
+   "anchor": "an overhanging granite ledge of the Morro da Urca with vines and a bromeliad hanging under it",
+   "death": "generic"
+  },
+  "obs-rio-sugarloaf": {
+   "files": "obs-rio-sugarloaf-{body,cap-top}",
+   "side": "bottom",
+   "stage": "rio",
+   "floorEdge": 9,
+   "pumpkinSeat": [
+    40,
+    9
+   ],
+   "death": "generic",
+   "note": "granite dome with moss"
+  },
+  "obs-rio-palm": {
+   "files": "obs-rio-palm-{body,cap-top}",
+   "side": "bottom",
+   "stage": "rio",
+   "floorEdge": 22,
+   "pumpkinSeat": [
+    40,
+    22
+   ],
+   "death": "generic",
+   "note": "fairy-lit palm trunk (narrow 18px body); outer fronds decorative"
+  },
+  "obs-rio-drums": {
+   "files": "obs-rio-drums-{body,cap-top}",
+   "side": "bottom",
+   "stage": "rio",
+   "floorEdge": 20,
+   "pumpkinSeat": [
+    40,
+    20
+   ],
+   "death": "generic",
+   "note": "stacked samba surdo drums; sticks decorative"
+  },
+  "obs-egypt-balloon": {
+   "files": "obs-egypt-balloon-{body,cap-bottom}",
+   "side": "top",
+   "stage": "egypt",
+   "ceilEdge": 74,
+   "anchor": "a Luxor hot-air balloon: the body IS the lower envelope (it fills the sky above); burner and basket hang from its mouth",
+   "death": "plane"
+  },
+  "obs-egypt-fanous": {
+   "files": "obs-egypt-fanous-{body,cap-bottom}",
+   "side": "top",
+   "stage": "egypt",
+   "ceilEdge": 68,
+   "anchor": "fanous lanterns strung on wires across a souk lane, a big one on the lowest wire",
+   "death": "generic"
+  },
+  "obs-egypt-templeledge": {
+   "files": "obs-egypt-templeledge-{body,cap-bottom}",
+   "side": "top",
+   "stage": "egypt",
+   "ceilEdge": 72,
+   "anchor": "a brass oil lamp hanging on a chain under a temple's overhanging sandstone lintel",
+   "death": "generic"
+  },
+  "obs-egypt-pyramid": {
+   "files": "obs-egypt-pyramid-{body,cap-top}",
+   "side": "bottom",
+   "stage": "egypt",
+   "floorEdge": 10,
+   "pumpkinSeat": [
+    40,
+    10
+   ],
+   "death": "generic",
+   "note": "stepped pyramid with gold capstone"
+  },
+  "obs-egypt-obelisk": {
+   "files": "obs-egypt-obelisk-{body,cap-top}",
+   "side": "bottom",
+   "stage": "egypt",
+   "floorEdge": 10,
+   "pumpkinSeat": [
+    40,
+    10
+   ],
+   "death": "generic",
+   "note": "pink granite obelisk (36px body)"
+  },
+  "obs-egypt-camel": {
+   "files": "obs-egypt-camel-{body,cap-top}",
+   "side": "bottom",
+   "stage": "egypt",
+   "floorEdge": 15,
+   "pumpkinSeat": [
+    36,
+    30
+   ],
+   "death": "generic",
+   "note": "a camel in a Santa hat lying on a dune"
+  },
+  "obs-tokyo-chochin": {
+   "files": "obs-tokyo-chochin-{body,cap-bottom}",
+   "side": "top",
+   "stage": "tokyo",
+   "ceilEdge": 70,
+   "anchor": "red chochin lanterns on wires strung across a shopping street (the steering example), a big one at the bottom",
+   "death": "generic"
+  },
+  "obs-tokyo-neongantry": {
+   "files": "obs-tokyo-neongantry-{body,cap-bottom}",
+   "side": "top",
+   "stage": "tokyo",
+   "ceilEdge": 68,
+   "anchor": "a neon panel chained under a steel sign gantry; the gantry legs go up off-screen",
+   "death": "generic"
+  },
+  "obs-tokyo-matsubough": {
+   "files": "obs-tokyo-matsubough-{body,cap-bottom}",
+   "side": "top",
+   "stage": "tokyo",
+   "ceilEdge": 62,
+   "anchor": "a glass furin wind bell hanging from the fork of a snowy Japanese pine bough",
+   "death": "generic"
+  },
+  "obs-tokyo-pagoda": {
+   "files": "obs-tokyo-pagoda-{body,cap-top}",
+   "side": "bottom",
+   "stage": "tokyo",
+   "floorEdge": 8,
+   "pumpkinSeat": [
+    40,
+    8
+   ],
+   "death": "generic",
+   "note": "pagoda storeys; eaves overhang decorative"
+  },
+  "obs-tokyo-vending": {
+   "files": "obs-tokyo-vending-{body,cap-top}",
+   "side": "bottom",
+   "stage": "tokyo",
+   "floorEdge": 24,
+   "pumpkinSeat": [
+    40,
+    22
+   ],
+   "death": "generic",
+   "note": "stacked vending machines"
+  },
+  "obs-tokyo-manekineko": {
+   "files": "obs-tokyo-manekineko-{body,cap-top}",
+   "side": "bottom",
+   "stage": "tokyo",
+   "floorEdge": 10,
+   "pumpkinSeat": [
+    40,
+    10
+   ],
+   "death": "generic",
+   "note": "lucky cat on crates"
+  },
+  "obs-sydney-bridgehanger": {
+   "files": "obs-sydney-bridgehanger-{body,cap-bottom}",
+   "side": "top",
+   "stage": "sydney",
+   "ceilEdge": 68,
+   "anchor": "a festive star hung under the Harbour Bridge deck; the hanger runs up to the arch",
+   "death": "generic"
+  },
+  "obs-sydney-gumbranch": {
+   "files": "obs-sydney-gumbranch-{body,cap-bottom}",
+   "side": "top",
+   "stage": "sydney",
+   "ceilEdge": 56,
+   "anchor": "a koala in a Santa hat hugging the fork of a gum tree's overhanging branch",
+   "death": "generic"
+  },
+  "obs-sydney-summercloud": {
+   "files": "obs-sydney-summercloud-{body,cap-bottom}",
+   "side": "top",
+   "stage": "sydney",
+   "ceilEdge": 62,
+   "anchor": "a fluffy summer cloud with the sun peeking out - in the sky",
+   "death": "generic"
+  },
+  "obs-sydney-opera": {
+   "files": "obs-sydney-opera-{body,cap-top}",
+   "side": "bottom",
+   "stage": "sydney",
+   "floorEdge": 8,
+   "pumpkinSeat": [
+    40,
+    8
+   ],
+   "death": "generic",
+   "note": "Opera House sail shells on a podium"
+  },
+  "obs-sydney-surfboards": {
+   "files": "obs-sydney-surfboards-{body,cap-top}",
+   "side": "bottom",
+   "stage": "sydney",
+   "floorEdge": 12,
+   "pumpkinSeat": [
+    40,
+    8
+   ],
+   "death": "generic",
+   "note": "three upright surfboards with tinsel"
+  },
+  "obs-sydney-sandcastle": {
+   "files": "obs-sydney-sandcastle-{body,cap-top}",
+   "side": "bottom",
+   "stage": "sydney",
+   "floorEdge": 10,
+   "pumpkinSeat": [
+    40,
+    10
+   ],
+   "death": "generic",
+   "note": "sandcastle wall + turret; flag decorative"
+  },
+  "obs-antarctica-serac": {
+   "files": "obs-antarctica-serac-{body,cap-bottom}",
+   "side": "top",
+   "stage": "antarctica",
+   "ceilEdge": 62,
+   "anchor": "an ice-cliff face coming down from above: snow-crusted overhanging lip at the screen top (obs-antarctica-serac-lip, wider than the column), blue strata down the face, drip edge and icicles at the cap",
+   "death": "icicle",
+   "topLip": {
+    "file": "obs-antarctica-serac-lip",
+    "size": [
+     112,
+     36
+    ],
+    "draw": "decorative, no hitbox: draw at (columnX - 16, 0) i.e. pinned to the screen top, over the body"
+   }
+  },
+  "obs-antarctica-blizzard": {
+   "files": "obs-antarctica-blizzard-{body,cap-bottom}",
+   "side": "top",
+   "stage": "antarctica",
+   "ceilEdge": 62,
+   "anchor": "a low blizzard cloud blowing snow - in the sky",
+   "death": "icicle"
+  },
+  "obs-antarctica-aurora": {
+   "files": "obs-antarctica-aurora-{body,cap-bottom}",
+   "side": "top",
+   "stage": "antarctica",
+   "ceilEdge": 60,
+   "anchor": "the aurora australis: a pink-teal curtain hanging out of the sky",
+   "death": "generic"
+  },
+  "obs-antarctica-iceberg": {
+   "files": "obs-antarctica-iceberg-{body,cap-top}",
+   "side": "bottom",
+   "stage": "antarctica",
+   "floorEdge": 10,
+   "pumpkinSeat": [
+    40,
+    10
+   ],
+   "death": "icicle",
+   "note": "faceted iceberg peak"
+  },
+  "obs-antarctica-penguins": {
+   "files": "obs-antarctica-penguins-{body,cap-top}",
+   "side": "bottom",
+   "stage": "antarctica",
+   "floorEdge": 8,
+   "pumpkinSeat": [
+    40,
+    8
+   ],
+   "death": "generic",
+   "note": "penguin tower, top one in a Santa hat"
+  },
+  "obs-antarctica-snowman": {
+   "files": "obs-antarctica-snowman-{body,cap-top}",
+   "side": "bottom",
+   "stage": "antarctica",
+   "floorEdge": 4,
+   "pumpkinSeat": [
+    40,
+    4
+   ],
+   "death": "icicle",
+   "note": "snowballs stacked, snowman head on top"
+  },
+  "_stageTopsLapland": {
+   "obs-lapland-aurora": 1,
+   "obs-lapland-sprucebough": 2,
+   "obs-lapland-pinebough": 2
+  },
+  "_stageBottomsLapland": {
+   "obs-lapland-pine": 2,
+   "obs-lapland-workshop": 2,
+   "obs-lapland-gifts": 1
+  },
+  "_stageTopsLondon": {
+   "obs-london-girder": 2,
+   "obs-london-snowcloud": 1,
+   "obs-london-lights": 2
+  },
+  "_stageBottomsLondon": {
+   "obs-london-chimney": 2,
+   "obs-london-phonebox": 1,
+   "obs-london-bus": 2
+  },
+  "_stageTopsNewyork": {
+   "obs-newyork-cranehook": 2,
+   "obs-newyork-trafficlight": 2,
+   "obs-newyork-elgirder": 1
+  },
+  "_stageBottomsNewyork": {
+   "obs-newyork-skyscraper": 2,
+   "obs-newyork-xmastree": 1,
+   "obs-newyork-taxi": 2
+  },
+  "_stageTopsRio": {
+   "obs-rio-cablecar": 2,
+   "obs-rio-bunting": 2,
+   "obs-rio-rockledge": 1
+  },
+  "_stageBottomsRio": {
+   "obs-rio-sugarloaf": 2,
+   "obs-rio-palm": 2,
+   "obs-rio-drums": 1
+  },
+  "_stageTopsEgypt": {
+   "obs-egypt-balloon": 1,
+   "obs-egypt-fanous": 2,
+   "obs-egypt-templeledge": 2
+  },
+  "_stageBottomsEgypt": {
+   "obs-egypt-pyramid": 2,
+   "obs-egypt-obelisk": 1,
+   "obs-egypt-camel": 2
+  },
+  "_stageTopsTokyo": {
+   "obs-tokyo-chochin": 2,
+   "obs-tokyo-neongantry": 2,
+   "obs-tokyo-matsubough": 1
+  },
+  "_stageBottomsTokyo": {
+   "obs-tokyo-pagoda": 2,
+   "obs-tokyo-vending": 2,
+   "obs-tokyo-manekineko": 1
+  },
+  "_stageTopsSydney": {
+   "obs-sydney-bridgehanger": 2,
+   "obs-sydney-gumbranch": 1,
+   "obs-sydney-summercloud": 2
+  },
+  "_stageBottomsSydney": {
+   "obs-sydney-opera": 1,
+   "obs-sydney-surfboards": 2,
+   "obs-sydney-sandcastle": 2
+  },
+  "_stageTopsAntarctica": {
+   "obs-antarctica-serac": 2,
+   "obs-antarctica-blizzard": 1,
+   "obs-antarctica-aurora": 2
+  },
+  "_stageBottomsAntarctica": {
+   "obs-antarctica-iceberg": 2,
+   "obs-antarctica-penguins": 2,
+   "obs-antarctica-snowman": 1
+  },
+  "_stageTopsAurora": {
+   "obs-antarctica-serac": 2,
+   "obs-antarctica-blizzard": 1,
+   "obs-antarctica-aurora": 2,
+   "note": "endless zone reuses the Antarctica columns (and optionally a random mix of all stages)"
+  },
+  "_stageBottomsAurora": {
+   "obs-antarctica-iceberg": 2,
+   "obs-antarctica-penguins": 2,
+   "obs-antarctica-snowman": 1
+  }
+ },
+ "hazards": {
+  "santa-float-lapland": {
+   "files": "obs-lapland-float-reindeer-{0,1,2,3}",
+   "strip": "obs-lapland-float-reindeer-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "lapland",
+   "death": "generic",
+   "art": "a flying reindeer (bell collar)"
+  },
+  "santa-float-london": {
+   "files": "obs-london-float-pigeon-{0,1,2,3}",
+   "strip": "obs-london-float-pigeon-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "london",
+   "death": "pigeon",
+   "art": "pigeon in a Santa hat"
+  },
+  "santa-float-newyork": {
+   "files": "obs-newyork-float-plane-{0,1,2,3}",
+   "strip": "obs-newyork-float-plane-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "newyork",
+   "death": "plane",
+   "art": "little prop plane"
+  },
+  "santa-float-rio": {
+   "files": "obs-rio-float-macaw-{0,1,2,3}",
+   "strip": "obs-rio-float-macaw-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "rio",
+   "death": "pigeon",
+   "art": "scarlet macaw"
+  },
+  "santa-float-egypt": {
+   "files": "obs-egypt-float-ibis-{0,1,2,3}",
+   "strip": "obs-egypt-float-ibis-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "egypt",
+   "death": "pigeon",
+   "art": "sacred ibis"
+  },
+  "santa-float-tokyo": {
+   "files": "obs-tokyo-float-papercrane-{0,1,2,3}",
+   "strip": "obs-tokyo-float-papercrane-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "tokyo",
+   "death": "pigeon",
+   "art": "origami paper crane"
+  },
+  "santa-float-sydney": {
+   "files": "obs-sydney-float-gull-{0,1,2,3}",
+   "strip": "obs-sydney-float-gull-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "sydney",
+   "death": "pigeon",
+   "art": "seagull"
+  },
+  "santa-float-antarctica": {
+   "files": "obs-antarctica-float-penguinfloe-{0,1,2,3}",
+   "strip": "obs-antarctica-float-penguinfloe-strip",
+   "size": [
+    40,
+    40
+   ],
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 13,
+   "frames": 4,
+   "fps": 6,
+   "stage": "antarctica",
+   "death": "icicle",
+   "art": "penguin drifting on a tiny ice floe"
+  }
+ },
+ "pickups": {
+  "santa-rush": {
+   "files": "pickup-santa-rush-{0..3}",
+   "strip": "pickup-santa-rush-strip",
+   "size": [
+    56,
+    56
+   ],
+   "type": "circle",
+   "cx": 28,
+   "cy": 30,
+   "r": 16,
+   "placement": "gapCentre",
+   "fps": 8,
+   "power": "power-rush",
+   "hud": "ui-hud-santa-rush-{32,48}",
+   "note": "Golden bauble = Rush (same power as the golden ghost)"
+  },
+  "santa-life": {
+   "files": "pickup-santa-life-{0..3}",
+   "strip": "pickup-santa-life-strip",
+   "size": [
+    56,
+    56
+   ],
+   "type": "circle",
+   "cx": 28,
+   "cy": 30,
+   "r": 16,
+   "placement": "gapCentre",
+   "fps": 8,
+   "power": "power-life",
+   "hud": "ui-hud-santa-life-{32,48}",
+   "note": "Red bauble = Extra Life (same as the red special ghost)"
+  },
+  "santa-chill": {
+   "files": "pickup-santa-chill-{0..3}",
+   "strip": "pickup-santa-chill-strip",
+   "size": [
+    56,
+    56
+   ],
+   "type": "circle",
+   "cx": 28,
+   "cy": 30,
+   "r": 16,
+   "placement": "gapCentre",
+   "fps": 8,
+   "power": "power-chill",
+   "hud": "ui-hud-santa-chill-{32,48}",
+   "note": "Blue bauble = Chill / slow-mo (same as the blue special ghost)"
+  }
+ },
+ "santa": {
+  "files": "santa-c-{idle,boost}-*",
+  "canvas": [
+   96,
+   128
+  ],
+  "anchor": [
+   48,
+   48
+  ],
+  "type": "circle",
+  "cx": 48,
+  "cy": 49,
+  "r": 18,
+  "note": "from ../santa-c (NOTES.md): == ghost circle (32,33) r18 shifted by +16"
+ },
+ "backgrounds": {
+  "_note": "decorative only - NO hitboxes. Lite set: each layer is a list of parts drawn at world y inside the 720-wide slot (tileWidth 720, seamless in x), as backgrounds.void in hitboxes.json",
+  "stages": [
+   "lapland",
+   "london",
+   "newyork",
+   "rio",
+   "egypt",
+   "tokyo",
+   "sydney",
+   "antarctica",
+   "aurora"
+  ],
+  "layers": [
+   "far",
+   "mid",
+   "near"
+  ],
+  "scroll": {
+   "far": 0.1,
+   "mid": 0.3,
+   "near": 0.6,
+   "aurora": {
+    "far": 0.05,
+    "mid": 0.15,
+    "near": 0.5
+   }
+  },
+  "transition": {
+   "overlay": "fx-santa-mist-{0..7}",
+   "strip": "fx-santa-mist-strip",
+   "size": [
+    360,
+    640
+   ],
+   "fps": 12,
+   "swapAtFrame": 3,
+   "tint": {
+    "lapland": "#CFF5E4",
+    "london": "#E6DDF7",
+    "newyork": "#FFF0D0",
+    "rio": "#FFD6E6",
+    "egypt": "#FFE3C4",
+    "tokyo": "#FFD6E0",
+    "sydney": "#D6F2FF",
+    "antarctica": "#DDF1FF",
+    "aurora": "#D9CCF5"
+   },
+   "tintedStrips1x": "fx-santa-mist-<stage>-strip (1x, pre-tinted)",
+   "note": "white snow mist; tint with multiply or use the pre-tinted strips; swap stage layers under the mist at frame 3"
+  },
+  "lapland": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#1B2348",
+     "bottom": "#3E5E8A",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-lapland-far-aurora.png",
+     "size1x": [
+      720,
+      220
+     ],
+     "size2x": [
+      1440,
+      440
+     ],
+     "y": 20,
+     "note": "northern lights"
+    },
+    {
+     "file": "bg-santa-lapland-far-fells.png",
+     "size1x": [
+      720,
+      160
+     ],
+     "size2x": [
+      1440,
+      320
+     ],
+     "y": 360,
+     "note": "snowy fells"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-lapland-mid-forest.png",
+     "size1x": [
+      720,
+      200
+     ],
+     "size2x": [
+      1440,
+      400
+     ],
+     "y": 380,
+     "note": "pines, reindeer, elf workshop"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-lapland-near-snow.png",
+     "size1x": [
+      720,
+      80
+     ],
+     "size2x": [
+      1440,
+      160
+     ],
+     "y": 560,
+     "note": "snow ground"
+    }
+   ]
+  },
+  "london": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#1F1D44",
+     "bottom": "#5B5596",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-london-far-skyline.png",
+     "size1x": [
+      720,
+      140
+     ],
+     "size2x": [
+      1440,
+      280
+     ],
+     "y": 360,
+     "note": "far roofs"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-london-mid-landmarks.png",
+     "size1x": [
+      720,
+      320
+     ],
+     "size2x": [
+      1440,
+      640
+     ],
+     "y": 220,
+     "note": "Big Ben, Tower Bridge, Thames"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-london-near-roofs.png",
+     "size1x": [
+      720,
+      140
+     ],
+     "size2x": [
+      1440,
+      280
+     ],
+     "y": 500,
+     "note": "snowy roofs + red bus"
+    }
+   ]
+  },
+  "newyork": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#1C2044",
+     "bottom": "#4C3E7A",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-newyork-far-skyline.png",
+     "size1x": [
+      720,
+      220
+     ],
+     "size2x": [
+      1440,
+      440
+     ],
+     "y": 300,
+     "note": "far skyline"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-newyork-mid-towers.png",
+     "size1x": [
+      720,
+      280
+     ],
+     "size2x": [
+      1440,
+      560
+     ],
+     "y": 260,
+     "note": "skyscrapers, Empire-ish spire, Rockefeller tree"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-newyork-near-street.png",
+     "size1x": [
+      720,
+      100
+     ],
+     "size2x": [
+      1440,
+      200
+     ],
+     "y": 540,
+     "note": "snowy street + taxis"
+    }
+   ]
+  },
+  "rio": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#241A4A",
+     "bottom": "#7A4E8E",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-rio-far-corcovado.png",
+     "size1x": [
+      720,
+      260
+     ],
+     "size2x": [
+      1440,
+      520
+     ],
+     "y": 160,
+     "note": "Corcovado + Christ the Redeemer silhouette, fireworks"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-rio-mid-sugarloaf.png",
+     "size1x": [
+      720,
+      260
+     ],
+     "size2x": [
+      1440,
+      520
+     ],
+     "y": 300,
+     "note": "Sugarloaf + cable-car line"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-rio-near-promenade.png",
+     "size1x": [
+      720,
+      160
+     ],
+     "size2x": [
+      1440,
+      320
+     ],
+     "y": 480,
+     "note": "Copacabana wave promenade + palms"
+    }
+   ]
+  },
+  "egypt": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#2A2350",
+     "bottom": "#C98A7A",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-egypt-far-dunes.png",
+     "size1x": [
+      720,
+      160
+     ],
+     "size2x": [
+      1440,
+      320
+     ],
+     "y": 380,
+     "note": "far dunes"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-egypt-mid-pyramids.png",
+     "size1x": [
+      720,
+      200
+     ],
+     "size2x": [
+      1440,
+      400
+     ],
+     "y": 340,
+     "note": "pyramids + Sphinx"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-egypt-near-sand.png",
+     "size1x": [
+      720,
+      100
+     ],
+     "size2x": [
+      1440,
+      200
+     ],
+     "y": 540,
+     "note": "sand + camel train"
+    }
+   ]
+  },
+  "tokyo": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#1A1840",
+     "bottom": "#5A3E86",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-tokyo-far-fuji.png",
+     "size1x": [
+      720,
+      300
+     ],
+     "size2x": [
+      1440,
+      600
+     ],
+     "y": 200,
+     "note": "Mt Fuji"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-tokyo-mid-city.png",
+     "size1x": [
+      720,
+      260
+     ],
+     "size2x": [
+      1440,
+      520
+     ],
+     "y": 280,
+     "note": "city, Tokyo Tower, neon"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-tokyo-near-street.png",
+     "size1x": [
+      720,
+      120
+     ],
+     "size2x": [
+      1440,
+      240
+     ],
+     "y": 520,
+     "note": "lantern strings + snowy street"
+    }
+   ]
+  },
+  "sydney": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#6EC3F0",
+     "bottom": "#FFE3B8",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-sydney-far-sea.png",
+     "size1x": [
+      720,
+      160
+     ],
+     "size2x": [
+      1440,
+      320
+     ],
+     "y": 380,
+     "note": "sea horizon + sun"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-sydney-mid-harbour.png",
+     "size1x": [
+      720,
+      230
+     ],
+     "size2x": [
+      1440,
+      460
+     ],
+     "y": 330,
+     "note": "Opera House + Harbour Bridge"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-sydney-near-beach.png",
+     "size1x": [
+      720,
+      100
+     ],
+     "size2x": [
+      1440,
+      200
+     ],
+     "y": 540,
+     "note": "beach, surfboards, umbrella"
+    }
+   ]
+  },
+  "antarctica": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#16264A",
+     "bottom": "#4E7AA8",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-antarctica-far-aurora.png",
+     "size1x": [
+      720,
+      220
+     ],
+     "size2x": [
+      1440,
+      440
+     ],
+     "y": 10,
+     "note": "aurora australis"
+    },
+    {
+     "file": "bg-santa-antarctica-far-mountains.png",
+     "size1x": [
+      720,
+      160
+     ],
+     "size2x": [
+      1440,
+      320
+     ],
+     "y": 360,
+     "note": "far ice mountains"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-antarctica-mid-icebergs.png",
+     "size1x": [
+      720,
+      210
+     ],
+     "size2x": [
+      1440,
+      420
+     ],
+     "y": 360,
+     "note": "icebergs"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-antarctica-near-shelf.png",
+     "size1x": [
+      720,
+      100
+     ],
+     "size2x": [
+      1440,
+      200
+     ],
+     "y": 540,
+     "note": "ice shelf + penguins"
+    }
+   ]
+  },
+  "aurora": {
+   "far": [
+    {
+     "kind": "gradient",
+     "top": "#0E1430",
+     "bottom": "#2E2A66",
+     "y": 0,
+     "h": 640
+    },
+    {
+     "file": "bg-santa-far-stars.png",
+     "size1x": [
+      360,
+      320
+     ],
+     "size2x": [
+      720,
+      640
+     ],
+     "y": 0,
+     "repeat": "xy",
+     "note": "shared; repeat 2x2 over the 720x640 slot"
+    },
+    {
+     "file": "bg-santa-aurora-far-aurora.png",
+     "size1x": [
+      720,
+      260
+     ],
+     "size2x": [
+      1440,
+      520
+     ],
+     "y": 10,
+     "note": "big aurora"
+    }
+   ],
+   "mid": [
+    {
+     "file": "bg-santa-aurora-mid-ribbons.png",
+     "size1x": [
+      720,
+      200
+     ],
+     "size2x": [
+      1440,
+      400
+     ],
+     "y": 200,
+     "note": "faint second aurora"
+    }
+   ],
+   "near": [
+    {
+     "file": "bg-santa-aurora-near-horizon.png",
+     "size1x": [
+      720,
+      80
+     ],
+     "size2x": [
+      1440,
+      160
+     ],
+     "y": 560,
+     "note": "dark ice horizon"
+    }
+   ]
+  }
+ },
+ "ui": {
+  "banner": "ui-santa-banner-<stage>[-blank] 300x90",
+  "badge": "ui-santa-badge[-1..8] 96x48",
+  "burst": {
+   "files": "fx-santa-burst-<stage>-{0..5}",
+   "size": [
+    160,
+    160
+   ],
+   "centre": [
+    80,
+    80
+   ],
+   "fps": 12,
+   "loop": false
+  }
+ }
+}
