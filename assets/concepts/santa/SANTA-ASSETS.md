@@ -189,3 +189,38 @@ tools/check_santa_continuity.py
 5. Deaths: look up the column/floater id in `santa-death-map.json`; ground hits use `floor`.
 6. Stage order: lapland, london, newyork, rio, egypt, tokyo, sydney, antarctica, then loop the aurora zone.
 7. Transitions: play `fx-santa-mist-<stage>-strip` (the destination tint) and swap layers at frame 3.
+
+## v0.8.0 pack fill-in (build_santa_v080.py, build_santa_scorecard.py, preview_santa_v080.py)
+Run order: `build_santa_stages.py` -> `build_santa_v080.py` (exports, copies PNGs into packs/santa/assets/png/{1x,2x}, merges
+`events`, `confetti`, `fx`, `cutscene` sections into both santa-hitboxes.json files) -> `build_santa_scorecard.py` -> `preview_santa_v080.py`.
+Preview: previews/santa-v080-preview.png. All art is generated from script SVG. Every item is either a sky object (reindeer, birds, wisps, fireworks, balloons) or has an anchor (camels and train on the ground, baubles hanging from the card rim).
+
+| Placeholder (pack.js) | File (png/1x + png/2x) | Frame | Frames/fps | json path | Hitbox |
+|---|---|---|---|---|---|
+| reindeerStampede rowSheets/popSheet '-' | event-santa-reindeer-strip.png | 40x40 | 4 @8 | events.santa-reindeer | circle (20,20) r14 |
+| bigBenPigeons rowSheets | event-santa-pigeon-strip.png | 40x40 | 4 @8 | events.santa-pigeon | circle (20,20) r14 |
+| auroraStorm rowSheets (3 rows) | event-santa-aurora-wisp-{a,b,c}-strip.png | 40x40 | 4 @8 | events.santa-aurora-{a,b,c} | circle (18,20) r14 |
+| all laneWave popSheet | event-santa-pop-strip.png | 64x64 | 6 @12 | events.santa-pop | - |
+| warning fallback | ui-santa-event-warning-strip.png | 40x40 | 2 @4 | events.santa-warning | - |
+| paradeBalloons sheet (rises) | event-santa-parade-balloon-strip.png | 72x48 | 2 @4 | events.santa-balloon | circle (22,18) r12 |
+| harbourFireworks sheet | event-santa-firework-strip.png | 72x48 | 2 @10 | events.santa-firework | circle (18,32) r12 |
+| icefall sheet | event-santa-icefall-strip.png | 72x48 | 2 @10 | events.santa-icefall | circle (18,32) r12 |
+| camelCaravan sheet | event-santa-camel-caravan-strip.png | 192x72 | 2 @10 | events.santa-camels | 3 rects |
+| bulletTrain sheet | event-santa-bullet-train-strip.png | 288x72 | 2 @10 | events.santa-train | 2 rects |
+| confettiShower (stub) | event-santa-confetti-strip.png (6 shapes) + fx-santa-confetti-burst-strip.png 160x160 6@12 | 32x32 | 6 | confetti.* | circle (16,16) r12 |
+| strips.golden null / powerStrips.golden 'rush' | santa-c-golden-strip.png | 96x128 | idle0-3+boost0-3 | - | as Santa C |
+| share.frameFile null | packs/santa/assets/ui-santa-scorecard-frame.png + @2x, santa-scorecard-layout.json | 600x800 | - | - | areas = Ghost layout |
+| warp (no hook) | cut-santa-sleigh-strip.png 224x96 4@10, cut-santa-hop-sparkle-strip.png 64x64 6@12 | | | cutscene.* | seat (140,46) |
+| transitionArt.swoosh null | ui-santa-swoosh-strip.png | 240x64 | 6 @12 | cutscene.santa-swoosh | - |
+| rushAura null | fx-santa-rush-aura-strip.png | 96x96 | 4 @8, dx/dy -16 | fx.rushAura | - |
+| heart null/hidden | santa-heart-overlay-strip.png | 20x20 | 2 @4, dx46 dy2 | fx.heart | - |
+| heartPop/heartBreak/frostBurst/candyBurst | fx-santa-heart-pop/-heart-break/-frost-burst-strip (96, 6@12), fx-santa-bauble-burst-strip (128, 6@12) | | | fx.* | - |
+| frostVignette / flakes | ui-santa-frost-vignette.png 360x640, fx-santa-frost-flake-{a,b,c}.png 16 | | | fx.* | - |
+| HUD 2x (48px copies) | png/2x/ui-hud-santa-{rush,life,chill}-48.png now 96x96 (and -32 now 64x64) | | | - | - |
+| badge 9 (blank + number) | ui-santa-badge-9.png (aurora gradient) | 96x48 | - | - | - |
+
+## v0.8.4 follow-ups
+- `cutscene.timeline` is now numeric: `{authoredMs:2000, scaleTo:"cutsceneSeconds", events:[{t_ms, action, params}]}` with sleighEnter 0, santaHop 600, sparkle 600, sleighExit 600-1600, sleighGone 1600 and end 2000. It mirrors the `pack.js` sleigh values.
+- Camels: moved to x=16/80/144. 6 rects (head/neck plus body/legs per camel). Solid top y8, so the solid height is 64. Floor = y72.
+- Train: rail top y64 and sleepers to y72. Rects [[6,30,40,42],[30,18,258,54]]. Solid top y18, so the solid height is 54.
+- Top-bleed: aurora bands have a 24px top alpha fade. The stars tile has no stars in its top 24px.

@@ -15,8 +15,8 @@ PackRegistry.register({
   // ---- hero: Art's Santa C (santa-c/NOTES.md). Strips = idle 0-3 + boost 0-3 side by side (packaged from santa-c-*-idle/boost-strip).
   // 96x128 canvas, anchor (48,48); drawn at the 64 px gameplay scale (scaleRef: k = size / 64). Boost plays once per tap @16 fps (0.25 s).
   hero: {
-    strips: { normal: 'santa-c-strip.png', golden: null }, // no golden Santa strip from Art: the golden run uses the rush (gold-trim) strip
-    powerStrips: { rush: 'santa-c-rush-strip.png', life: 'santa-c-life-strip.png', chill: 'santa-c-chill-strip.png', golden: 'rush' },
+    strips: { normal: 'santa-c-strip.png', golden: 'santa-c-golden-strip.png' }, // v0.8.4: Art's golden Santa (SANTA-ASSETS v0.8.0)
+    powerStrips: { rush: 'santa-c-rush-strip.png', life: 'santa-c-life-strip.png', chill: 'santa-c-chill-strip.png', golden: null },
     frameOrder: ['idle-0', 'idle-1', 'idle-2', 'idle-3', 'boost-0', 'boost-1', 'boost-2', 'boost-3'],
     frameSize: 96, frameW: 96, frameH: 128, scaleRef: 64,
     anchor: [48, 48],
@@ -32,8 +32,11 @@ PackRegistry.register({
   heroSpecials: {
     pickup: { rush: 'pickup-santa-rush-strip.png', extraLife: 'pickup-santa-life-strip.png', slowMo: 'pickup-santa-chill-strip.png', size: 56, frames: 4, fps: 8 },
     hud: { rush: 'ui-hud-santa-rush-48.png', extraLife: 'ui-hud-santa-life-48.png', slowMo: 'ui-hud-santa-chill-48.png', size: 26 }, // Art: 1x only (the 48 px icon is used on 2x too)
-    // no Santa rush aura / heart overlay / pop / frost art: the power strips show the state; other fx = engine placeholders
-    ghostRush: { file: null }, rushAura: { file: null }, heart: { file: null, hidden: true },
+    // v0.8.4: Art's fx (santa-hitboxes.json fx). ghostRush stays off: the rush power strip shows the state
+    ghostRush: { file: null }, rushAura: { file: 'fx-santa-rush-aura-strip.png', w: 96, h: 96, frames: 4, fps: 8, dx: -16, dy: -16 }, heart: { file: 'santa-heart-overlay-strip.png', w: 20, h: 20, frames: 2, fps: 4, dx: 46, dy: 2 },
+    heartPop: { file: 'fx-santa-heart-pop-strip.png', w: 96, h: 96, frames: 6, fps: 12, dx: -16, dy: -16 }, heartBreak: { file: 'fx-santa-heart-break-strip.png', w: 96, h: 96, frames: 6, fps: 12, dx: -16, dy: -16 },
+    frostBurst: { file: 'fx-santa-frost-burst-strip.png', w: 96, h: 96, frames: 6, fps: 12, dx: -16, dy: -16 }, candyBurst: { file: 'fx-santa-bauble-burst-strip.png', w: 128, h: 128, frames: 6, fps: 12 },
+    frostVignette: { file: 'ui-santa-frost-vignette.png' }, flakes: ['fx-santa-frost-flake-a.png', 'fx-santa-frost-flake-b.png', 'fx-santa-frost-flake-c.png'], flakeSize: 16, fxSeconds: 0.5,
     placeholder: { rush: '#FFD966', extraLife: '#FF6F8E', slowMo: '#8FD3FF' },
   },
 
@@ -47,7 +50,7 @@ PackRegistry.register({
       look: { sky: ['#1B2348', '#3E5E8A'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.15, mix: {'santa-float-lapland': 1} },
-      event: { id: 'reindeerStampede', firesAt: 3, seconds: 3.0, bonus: 3, zone: 'topHalf', yMax: 270, type: 'laneWave', waves: 1, waveCrossAt: [1.4], laneHeight: 176, spacing: 44, r: 14, vx: -260, wiggle: 3, rowSheets: ['-'], rowColors: ['#C9A27A'], popSeconds: 0.5, popSheet: '-', laneShiftMin: 60, laneShiftMax: 110, laneMinY: 400, laneMaxY: 420, laneTint: [207, 245, 228], warning: { label: 'Reindeer!', y: 90 }, bonusText: 'Stampede dodged!', placeholder: { color: '#C9A27A', label: 'reindeer' },
+      event: { id: 'reindeerStampede', firesAt: 3, seconds: 3.0, bonus: 3, zone: 'topHalf', yMax: 270, type: 'laneWave', waves: 1, waveCrossAt: [1.4], laneHeight: 176, spacing: 44, r: 14, vx: -260, wiggle: 3, rowSheets: ['santa-ev-reindeer'], rowColors: ['#C9A27A'], popSeconds: 0.5, popSheet: 'santa-ev-pop', laneShiftMin: 60, laneShiftMax: 110, laneMinY: 400, laneMaxY: 420, laneTint: [207, 245, 228], warning: { label: 'Reindeer!', y: 90 }, bonusText: 'Stampede dodged!', placeholder: { color: '#C9A27A', label: 'reindeer' },
                desc: 'Reindeer stampede across the top half; fly low (+3 pairs into Lapland).' } },
     { id: 'london', name: 'London', startAt: 5,
       top:    {'obs-london-girder': 2, 'obs-london-snowcloud': 1, 'obs-london-lights': 2},
@@ -57,7 +60,7 @@ PackRegistry.register({
       look: { sky: ['#1F1D44', '#5B5596'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.20, mix: {'santa-float-london': 1} },
-      event: { id: 'bigBenPigeons', firesAt: 10, seconds: 3.5, bonus: 4, zone: 'topHalf', yMax: 270, type: 'laneWave', waves: 1, waveCrossAt: [1.6], laneHeight: 176, spacing: 44, r: 14, vx: -260, wiggle: 3, rowSheets: ['-'], rowColors: ['#9AA3B5'], popSeconds: 0.5, popSheet: '-', laneShiftMin: 60, laneShiftMax: 110, laneMinY: 400, laneMaxY: 420, laneTint: [230, 221, 247], warning: { label: 'Pigeons!', y: 90 }, bonusText: 'Pigeons dodged!', placeholder: { color: '#9AA3B5', label: 'pigeon' },
+      event: { id: 'bigBenPigeons', firesAt: 10, seconds: 3.5, bonus: 4, zone: 'topHalf', yMax: 270, type: 'laneWave', waves: 1, waveCrossAt: [1.6], laneHeight: 176, spacing: 44, r: 14, vx: -260, wiggle: 3, rowSheets: ['santa-ev-pigeon'], rowColors: ['#9AA3B5'], popSeconds: 0.5, popSheet: 'santa-ev-pop', laneShiftMin: 60, laneShiftMax: 110, laneMinY: 400, laneMaxY: 420, laneTint: [230, 221, 247], warning: { label: 'Pigeons!', y: 90 }, bonusText: 'Pigeons dodged!', placeholder: { color: '#9AA3B5', label: 'pigeon' },
                desc: 'Pigeon flock across the top half when Big Ben chimes (+5 pairs into London).' } },
     { id: 'newyork', name: 'New York', startAt: 15,
       top:    {'obs-newyork-cranehook': 2, 'obs-newyork-trafficlight': 2, 'obs-newyork-elgirder': 1},
@@ -67,7 +70,7 @@ PackRegistry.register({
       look: { sky: ['#1C2044', '#4C3E7A'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.25, mix: {'santa-float-newyork': 1} },
-      event: { id: 'paradeBalloons', firesAt: 20, type: 'diagonalShower', waves: 2, waveCrossAt: [1.0, 2.6], laneHeight: 176, spacing: 50, vx: -220, vy: -140, laneShiftMin: 60, laneShiftMax: 120, laneMinY: 140, laneMaxY: 420, r: 12, sheet: '-', seconds: 4.0, bonus: 5, laneTint: [255, 240, 208], warning: { label: 'Balloons!', y: 90 }, bonusText: 'Parade passed!', placeholder: { color: '#FF8FA3', label: 'balloon' },
+      event: { id: 'paradeBalloons', firesAt: 20, type: 'diagonalShower', waves: 2, waveCrossAt: [1.0, 2.6], laneHeight: 176, spacing: 50, vx: -220, vy: -140, laneShiftMin: 60, laneShiftMax: 120, laneMinY: 140, laneMaxY: 420, r: 12, sheet: 'santa-ev-balloon', seconds: 4.0, bonus: 5, laneTint: [255, 240, 208], warning: { label: 'Balloons!', y: 90 }, bonusText: 'Parade passed!', placeholder: { color: '#FF8FA3', label: 'balloon' },
                desc: 'Parade balloons rise through the screen in 2 waves (+5 pairs into New York).' } },
     { id: 'rio', name: 'Rio', startAt: 25,
       top:    {'obs-rio-cablecar': 2, 'obs-rio-bunting': 2, 'obs-rio-rockledge': 1},
@@ -77,7 +80,7 @@ PackRegistry.register({
       look: { sky: ['#241A4A', '#7A4E8E'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.25, mix: {'santa-float-rio': 1} },
-      event: { id: 'confettiShower', type: null, firesAt: 30, seconds: 4.0, bonus: 0, perItem: 1, maxItems: 6, hazards: false, // stub (no catch handler yet: logged only, like Ghost's sweetShower)
+      event: { id: 'confettiShower', type: 'confettiShower', firesAt: 30, seconds: 4.0, bonus: 0, perItem: 1, maxItems: 6, hazards: false, sheet: 'santa-ev-confetti', burstSheet: 'santa-fx-confetti-burst', burstSeconds: 0.5, spawnEvery: 0.55, vx: -150, vy: 40, spin: 3, minY: 120, maxY: 380, r: 12, size: 32, warning: { label: 'Confetti!', y: 90 }, bonusText: 'Confetti caught!', placeholder: { color: '#FF8FC8', label: 'confetti' },
                desc: 'Carnival confetti shower: catch +1 each, up to 6, no hazards (+5 pairs into Rio).' } },
     { id: 'egypt', name: 'Egypt', startAt: 35,
       top:    {'obs-egypt-balloon': 1, 'obs-egypt-fanous': 2, 'obs-egypt-templeledge': 2},
@@ -87,8 +90,8 @@ PackRegistry.register({
       look: { sky: ['#2A2350', '#C98A7A'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.30, mix: {'santa-float-egypt': 1} },
-      event: { id: 'camelCaravan', type: 'groundSweep', firesAt: 41, seconds: 3.5, bonus: 5, floorRise: 60, length: 180, sheet: '-', warning: { label: 'Camels!', groundOffset: -32 }, bonusText: 'Caravan passed!', placeholder: { color: '#D9A86C', label: 'camels' },
-               desc: 'Camel caravan along the ground; floor rises 60 px (+6 pairs into Egypt).' } },
+      event: { id: 'camelCaravan', solid: { floor: 72, top: 8, height: 64 }, type: 'groundSweep', firesAt: 41, seconds: 3.5, bonus: 5, floorRise: 64, length: 180, sheet: 'santa-ev-camels', warning: { label: 'Camels!', groundOffset: -32 }, bonusText: 'Caravan passed!', placeholder: { color: '#D9A86C', label: 'camels' },
+               desc: 'Camel caravan along the ground; solid 64 px (+6 pairs into Egypt).' } },
     { id: 'tokyo', name: 'Tokyo', startAt: 50,
       top:    {'obs-tokyo-chochin': 2, 'obs-tokyo-neongantry': 2, 'obs-tokyo-matsubough': 1},
       bottom: {'obs-tokyo-pagoda': 2, 'obs-tokyo-vending': 2, 'obs-tokyo-manekineko': 1},
@@ -97,8 +100,8 @@ PackRegistry.register({
       look: { sky: ['#1A1840', '#5A3E86'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.30, mix: {'santa-float-tokyo': 1} },
-      event: { id: 'bulletTrain', type: 'groundSweep', firesAt: 56, seconds: 3.0, bonus: 6, floorRise: 70, length: 260, sheet: '-', warning: { label: 'Bullet train!', groundOffset: -32 }, bonusText: 'Train dodged!', placeholder: { color: '#E8EEF5', label: 'train' },
-               desc: 'Bullet train along the ground; floor rises 70 px (+6 pairs into Tokyo).' } },
+      event: { id: 'bulletTrain', solid: { floor: 72, top: 18, height: 54, railTop: 64 }, type: 'groundSweep', firesAt: 56, seconds: 3.0, bonus: 6, floorRise: 54, length: 260, sheet: 'santa-ev-train', warning: { label: 'Bullet train!', groundOffset: -32 }, bonusText: 'Train dodged!', placeholder: { color: '#E8EEF5', label: 'train' },
+               desc: 'Bullet train along the ground; solid 54 px, no fly-under (+6 pairs into Tokyo).' } },
     { id: 'sydney', name: 'Sydney', startAt: 65,
       top:    {'obs-sydney-bridgehanger': 2, 'obs-sydney-gumbranch': 1, 'obs-sydney-summercloud': 2},
       bottom: {'obs-sydney-opera': 1, 'obs-sydney-surfboards': 2, 'obs-sydney-sandcastle': 2},
@@ -107,7 +110,7 @@ PackRegistry.register({
       look: { sky: ['#6EC3F0', '#FFE3B8'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.35, mix: {'santa-float-sydney': 1} },
-      event: { id: 'harbourFireworks', firesAt: 71, type: 'diagonalShower', waves: 2, waveCrossAt: [1.0, 2.6], laneHeight: 176, spacing: 50, vx: -320, vy: 160, laneShiftMin: 60, laneShiftMax: 120, laneMinY: 140, laneMaxY: 420, r: 12, sheet: '-', seconds: 4.0, bonus: 6, laneTint: [214, 242, 255], warning: { label: 'Fireworks!', y: 90 }, bonusText: 'Fireworks dodged!', placeholder: { color: '#FFD966', label: 'firework' },
+      event: { id: 'harbourFireworks', firesAt: 71, type: 'diagonalShower', waves: 2, waveCrossAt: [1.0, 2.6], laneHeight: 176, spacing: 50, vx: -320, vy: 160, laneShiftMin: 60, laneShiftMax: 120, laneMinY: 140, laneMaxY: 420, r: 12, sheet: 'santa-ev-firework', seconds: 4.0, bonus: 6, laneTint: [214, 242, 255], warning: { label: 'Fireworks!', y: 90 }, bonusText: 'Fireworks dodged!', placeholder: { color: '#FFD966', label: 'firework' },
                desc: 'Harbour fireworks in 2 diagonal waves (+6 pairs into Sydney).' } },
     { id: 'antarctica', name: 'Antarctica', startAt: 80,
       top:    {'obs-antarctica-serac': 2, 'obs-antarctica-blizzard': 1, 'obs-antarctica-aurora': 2},
@@ -118,7 +121,7 @@ PackRegistry.register({
       look: { sky: ['#16264A', '#4E7AA8'], celestial: 'none', ground: '#3E5E8A', groundTop: '#EAF4FF', layers: ['#ffffff', '#cfe0f5', '#9fb6d6'], mist: ['#FFFFFF', '#E6DDF7', '#D9CCF5'],
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       floaters: { chance: 0.35, mix: {'santa-float-antarctica': 1} },
-      event: { id: 'icefall', firesAt: 85, type: 'diagonalShower', waves: 2, waveCrossAt: [1.0, 2.6], laneHeight: 176, spacing: 50, vx: -300, vy: 220, laneShiftMin: 60, laneShiftMax: 120, laneMinY: 140, laneMaxY: 420, r: 12, sheet: '-', seconds: 4.0, bonus: 8, laneTint: [221, 241, 255], warning: { label: 'Icefall!', y: 90 }, bonusText: 'Icefall dodged!', placeholder: { color: '#BFE6FF', label: 'icicle' },
+      event: { id: 'icefall', firesAt: 85, type: 'diagonalShower', waves: 2, waveCrossAt: [1.0, 2.6], laneHeight: 176, spacing: 50, vx: -300, vy: 220, laneShiftMin: 60, laneShiftMax: 120, laneMinY: 140, laneMaxY: 420, r: 12, sheet: 'santa-ev-icefall', seconds: 4.0, bonus: 8, laneTint: [221, 241, 255], warning: { label: 'Icefall!', y: 90 }, bonusText: 'Icefall dodged!', placeholder: { color: '#BFE6FF', label: 'icicle' },
                desc: 'Icicles drop in 2 steep waves from the top (+5 pairs into Antarctica).' } },
     { id: 'aurora', name: 'Aurora', startAtScore: 150, enter: { cutscene: 'sleighHop' },
       top:    {'obs-antarctica-serac': 2, 'obs-antarctica-blizzard': 1, 'obs-antarctica-aurora': 2},
@@ -131,7 +134,7 @@ PackRegistry.register({
               style: { silhouettes: 'starfield', backdrop: 'twinkle', ground: 'artNear' } },
       parallax: { far: 0.05, mid: 0.15, near: 0.5 }, // Art backgrounds.scroll.aurora
       floaters: { chance: 0.40, mix: {'santa-float-lapland': 1, 'santa-float-london': 1, 'santa-float-newyork': 1, 'santa-float-rio': 1, 'santa-float-egypt': 1, 'santa-float-tokyo': 1, 'santa-float-sydney': 1, 'santa-float-antarctica': 1} },
-      event: { id: 'auroraStorm', firesAfterEntryPairs: 10, repeatEvery: 30, seconds: 4.0, bonus: 10, rows: 2, type: 'laneWave', waves: 2, waveCrossAt: [1.2, 2.8], laneHeight: 176, spacing: 44, r: 14, vx: -260, wiggle: 3, rowSheets: ['-'], rowColors: ['#9CF0D0'], popSeconds: 0.5, popSheet: '-', laneShiftMin: 60, laneShiftMax: 110, laneMinY: 150, laneMaxY: 410, laneTint: [217, 204, 245], warning: { label: 'Aurora storm!', y: 90 }, bonusText: 'Storm survived!', placeholder: { color: '#9CF0D0', label: 'aurora' },
+      event: { id: 'auroraStorm', firesAfterEntryPairs: 10, repeatEvery: 30, seconds: 4.0, bonus: 10, rows: 2, type: 'laneWave', waves: 2, waveCrossAt: [1.2, 2.8], laneHeight: 176, spacing: 44, r: 14, vx: -260, wiggle: 3, rowSheets: ['santa-ev-aurora-a', 'santa-ev-aurora-b', 'santa-ev-aurora-c'], rowColors: ['#9CF0D0'], popSeconds: 0.5, popSheet: 'santa-ev-pop', laneShiftMin: 60, laneShiftMax: 110, laneMinY: 150, laneMaxY: 410, laneTint: [217, 204, 245], warning: { label: 'Aurora storm!', y: 90 }, bonusText: 'Storm survived!', placeholder: { color: '#9CF0D0', label: 'aurora' },
                desc: 'Aurora storm: 2 sweeping rows with one clear lane at least 176 px; hold the lane.' } },
   ],
   stageRules: { loopFrom: 'aurora', aliases: { 'new-york': 'newyork' }, bottom: {'obs-lapland-pine': 2, 'obs-lapland-workshop': 2, 'obs-lapland-gifts': 1} },
@@ -212,6 +215,8 @@ PackRegistry.register({
       warmOnIdle: false, streakLength: 110, streakCount: 36, mistBlobs: 10, ribbons: 0,
       // v0.8.1 (mem80): hold the aurora prewarm until the Antarctica city mist is done (Sydney evicted); the hop waits up to readyWaitMaxSeconds for it
       prewarmAfterCityMist: true, readyWaitMaxSeconds: 2,
+      // v0.8.5: generated from santa-hitboxes.json cutscene.timeline (numeric, authoredMs 2000; times below are authored seconds, scaled by cutsceneSeconds/2.0 in warpS)
+      sleigh: { sheet: 'santa-sleigh', sparkle: 'santa-hop-sparkle', seat: [140, 46], seatS: 0.6, leaveS: 0.6, goneS: 1.6, enterDx: 140, enterDy: 40, riseDy: -180, exitX: -240, heroScale: 0.75, sparkleSize: 64 },
       prewarmScoreAhead: 10, useTransitionTiles: false, unloadFromAfterSwap: false, deferLayers: [], qaStartPairs: 100,
     },
   },
@@ -230,14 +235,14 @@ PackRegistry.register({
   transitionArt: {
     banner: 'ui-santa-banner-{stage}.png', bannerStageBlank: 'ui-santa-banner-{stage}-blank.png', bannerBlank: null,
     burst: { file: 'fx-santa-burst-{stage}-strip.png', frames: 6, w: 160, h: 160 },
-    swoosh: { file: null, frames: 6, w: 240, h: 64 },
-    badge: 'ui-santa-badge-{n}.png', badgeBlank: 'ui-santa-badge.png', badgeMax: 8,
+    swoosh: { file: 'ui-santa-swoosh-strip.png', frames: 6, w: 240, h: 64 },
+    badge: 'ui-santa-badge-{n}.png', badgeBlank: 'ui-santa-badge.png', badgeMax: 9,
     cityMist: { file: 'fx-santa-mist-{stage}-strip.png', folder: '1x', frames: 8, fps: 12, swapAtFrame: 3 },
   },
 
   // ---- score card: no Santa frame from Art -> the engine's drawn fallback frame (PLACEHOLDER)
   share: { title: "Santa's Rocket Run", template: "{name} scored {score} in Santa's Rocket Run, reaching {stage}! Can you beat it?", fileName: 'santas-rocket-run-score.png',
-    frameFile: null, frameStageFile: {}, frameGeneric: [], layout: null },
+    frameFile: 'packs/santa/assets/ui-santa-scorecard-frame@2x.png', frameStageFile: {}, frameGeneric: [], layout: 'packs/santa/assets/santa-scorecard-layout.json' },
 
   assets: {
     pngDir: 'packs/santa/assets/png',
@@ -252,6 +257,22 @@ PackRegistry.register({
       'santa-float-tokyo': { file: 'obs-tokyo-float-papercrane-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 6, json: ['hazards', 'santa-float-tokyo'] },
       'santa-float-sydney': { file: 'obs-sydney-float-gull-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 6, json: ['hazards', 'santa-float-sydney'] },
       'santa-float-antarctica': { file: 'obs-antarctica-float-penguinfloe-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 6, json: ['hazards', 'santa-float-antarctica'] },
+      'santa-ev-reindeer': { file: 'event-santa-reindeer-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 8, json: ['events', 'santa-reindeer'] },
+      'santa-ev-pigeon': { file: 'event-santa-pigeon-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 8, json: ['events', 'santa-pigeon'] },
+      'santa-ev-aurora-a': { file: 'event-santa-aurora-wisp-a-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 8, json: ['events', 'santa-aurora-a'] },
+      'santa-ev-aurora-b': { file: 'event-santa-aurora-wisp-b-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 8, json: ['events', 'santa-aurora-b'] },
+      'santa-ev-aurora-c': { file: 'event-santa-aurora-wisp-c-strip.png', w: 40, h: 40, frames: [0, 1, 2, 3], fps: 8, json: ['events', 'santa-aurora-c'] },
+      'santa-ev-balloon': { file: 'event-santa-parade-balloon-strip.png', w: 72, h: 48, frames: [0, 1], fps: 4, json: ['events', 'santa-balloon'] },
+      'santa-ev-firework': { file: 'event-santa-firework-strip.png', w: 72, h: 48, frames: [0, 1], fps: 10, json: ['events', 'santa-firework'] },
+      'santa-ev-icefall': { file: 'event-santa-icefall-strip.png', w: 72, h: 48, frames: [0, 1], fps: 10, json: ['events', 'santa-icefall'] },
+      'santa-ev-camels': { file: 'event-santa-camel-caravan-strip.png', w: 192, h: 72, frames: [0, 1], fps: 10, json: ['events', 'santa-camels'] },
+      'santa-ev-train': { file: 'event-santa-bullet-train-strip.png', w: 288, h: 72, frames: [0, 1], fps: 10, json: ['events', 'santa-train'] },
+      'santa-ev-pop': { file: 'event-santa-pop-strip.png', w: 64, h: 64, frames: [0, 1, 2, 3, 4, 5], fps: 12, json: ['events', 'santa-pop'] },
+      'warning': { file: 'ui-santa-event-warning-strip.png', w: 40, h: 40, frames: [0, 1], fps: 4, json: ['events', 'santa-warning'] },
+      'santa-ev-confetti': { file: 'event-santa-confetti-strip.png', w: 32, h: 32, frames: [0, 1, 2, 3, 4, 5], fps: 0, json: ['confetti', 'santa-confetti'] },
+      'santa-fx-confetti-burst': { file: 'fx-santa-confetti-burst-strip.png', w: 160, h: 160, frames: [0, 1, 2, 3, 4, 5], fps: 12, json: ['confetti', 'santa-confetti-burst'] },
+      'santa-sleigh': { file: 'cut-santa-sleigh-strip.png', w: 224, h: 96, frames: [0, 1, 2, 3], fps: 10, json: ['cutscene', 'santa-sleigh'] },
+      'santa-hop-sparkle': { file: 'cut-santa-hop-sparkle-strip.png', w: 64, h: 64, frames: [0, 1, 2, 3, 4, 5], fps: 12, json: ['cutscene', 'santa-hop-sparkle'] },
     },
     voidArt: { stage: null, detectPrefix: '\u0000none', transitions: [] },
     backgrounds: {

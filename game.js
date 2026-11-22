@@ -13,7 +13,7 @@
 //   ?golden=1|0 (golden run)  ?god=1 (no deaths, hits logged)  ?effects=0  ?pack=<id> (v0.7.0)
 // =============================================================================
 const CONFIG = {
-  build: { version: '0.8.3', title: 'Move Cosy' }, // [build] overall title (picker header, document title)
+  build: { version: '0.8.7', title: 'Move Cosy' }, // [build] overall title (picker header, document title)
   // v0.7.0 packs: packs/manifest.js (window.MOVE_COSY_PACKS) lists every version; only the chosen pack file is loaded.
   packs: {
     manifestGlobal: 'MOVE_COSY_PACKS',
@@ -146,6 +146,7 @@ const CONFIG = {
 
   // one event per stage visit; repeats (repeatEvery) only while still in that zone (list: stages[].event)
   events: {
+    releaseSkipsMissingArt: true, // v0.8.4: debug off -> an event whose art is missing (pack placeholder) is never announced or spawned
     speedHold: false,      // v1.5: off; code path kept
     warningSeconds: 1.0,
     repeatOnlyInZone: true, // [build] city repeats at 58, 83 (not after launch); space 120, 150, ...
@@ -201,10 +202,20 @@ const CONFIG = {
   // v0.3.1 rendering budget (QA P1)
   render: {
     maxDpr: 2,             // backing store capped at 2x CSS px even on DPR-3 phones
+    // v0.8.4 (S25 perf): a stage's background parts (Santa cities, Ghost Void) are composed once per (stage, layer, scale) into a backing-res
+    // canvas and blitted 1:1, instead of ~14 scaled drawImage calls per slot per frame. maxEntries = LRU cap (current + next stage x layers).
+    partsCache: { enabled: true, maxEntries: 6 }, // 6 = current + next stage x 3 Santa layers (mem80 budget)
     evictSweepFrames: 30,  // v0.6: also drop off-screen/unneeded tiles every N idle frames (the Void has no next stage, so no build would ever evict the space tiles)
     layerCacheMax: 10,     // hard cap; 3 tiles per layer (current/outgoing, next, transition) + the launch sky
     farLayerScale: 0.5,    // far layers (slow, soft sky + hills) cached at half resolution, upscaled on blit
     skyScale: 0.5,         // launch-sky backdrop likewise
+    // v0.8.4 (S25 fill): the 360x640 world letterboxes on tall phones (384x832 -> 75 css px bands). The bands are filled
+    // with the frame's own top/bottom edge, blurred across `cols` samples (GPU blit, no readback); world/physics unchanged.
+    bleed: { enabled: true, cols: 16, srcRows: 3, minBandPx: 1, actorClipTop: 4 }, // v0.8.5: hero / boost flame / trail / rocket are clipped below world y actorClipTop (>= srcRows) so the top band never samples them
+    // v0.8.7: a 1.0-parallax ground lip so a pair-pause (TUNING v1.4, unchanged) does not look like the world slowed.
+    // artNear (Santa): soft mounds in `fill` along GROUND_Y, always on so the cue does not pop at the warning.
+    // Ghost already had 1.0 spikes in drawGround; those now use parallax/interval from here (look unchanged).
+    fgScroll: { enabled: true, parallax: 1, always: true, height: 9, width: 28, interval: 40, y: 0, fill: '#D2E3F2', stroke: '#7E9BB5', lineWidth: 1.25 },
   },
   // QA hooks (?god, ?stage, ?event, ?pickup, ?golden, ?effects, ghostGame._dbg/setStage/...)
   debug: {
@@ -243,6 +254,7 @@ const CONFIG = {
   },
 
   ui: {
+    titleFit: { y: 150, size: 44, minSize: 22, pad: 14 }, // v0.8.4: ready-screen title shrinks (measured) to fit W - 2*pad; never below minSize
     tapCuePad: 6, tapCueOffsets: [-30, 52, -84, 100, -130, 150], // QA TR-CUE: candidate y offsets from the ghost, first clear of banner + badge wins
     tapCueSeconds: 1.0,    // v0.3.1: 'Tap!' cue when the ghost pops out after the rocket
     restartLockout: 0.4,
@@ -1021,6 +1033,31 @@ function startEngine(PACK) {
     bgCanvas.width = canvas.width; bgCanvas.height = canvas.height;
     bgCtx.setTransform(s, 0, 0, s, 0, 0);
     ctx.imageSmoothingEnabled = true;
+    layoutBleed(cssW, cssH);
+  }
+  // v0.8.4: edge bleed canvases above/below the letterboxed world (pointer-events none: taps fall through to the window flap handler)
+  const bleed = CONFIG.render.bleed.enabled ? ['top', 'bottom'].map(side => {
+    const c = document.createElement('canvas'); c.className = 'gg-bleed'; c.width = CONFIG.render.bleed.cols; c.height = 1;
+    Object.assign(c.style, { position: 'fixed', left: '0', width: '100vw', pointerEvents: 'none', zIndex: '0', display: 'none', [side]: '0' });
+    document.body.appendChild(c); return { side, c, x: c.getContext('2d'), h: 0 };
+  }) : [];
+  function layoutBleed(cssW, cssH) {
+    const vh = window.innerHeight, band = (vh - cssH) / 2;
+    for (const b of bleed) { b.h = band; b.c.style.height = Math.ceil(band) + 'px'; b.c.style.display = band >= CONFIG.render.bleed.minBandPx ? 'block' : 'none'; }
+  }
+  function edgeClip(fn) { // v0.8.5: keep bright actors out of the rows the top bleed band samples
+    const R = CONFIG.render.bleed;
+    if (!bleed.length || !(bleed[0].h >= R.minBandPx)) return fn();
+    const m = ctx.getTransform(), y = Math.ceil(Math.max(R.actorClipTop, R.srcRows) * canvas.height / H);
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.beginPath(); ctx.rect(0, y, canvas.width, canvas.height - y); ctx.clip(); ctx.setTransform(m);
+    try { return fn(); } finally { ctx.restore(); }
+  }
+  function drawBleed() {
+    const R = CONFIG.render.bleed, rows = Math.max(1, Math.round(R.srcRows * canvas.height / H));
+    for (const b of bleed) {
+      if (b.h < R.minBandPx) continue;
+      b.x.drawImage(canvas, 0, b.side === 'top' ? 0 : canvas.height - rows, canvas.width, rows, 0, 0, R.cols, 1);
+    }
   }
   window.addEventListener('resize', resize);
   window.addEventListener('orientationchange', resize);
@@ -1116,7 +1153,20 @@ function startEngine(PACK) {
     if (def && stage().id === LAUNCH_ID && game.spaceBasePairs != null) at = game.spaceBasePairs + (def.firesAfterLaunchPairs != null ? def.firesAfterLaunchPairs : def.firesAt - STAGES[stageIndexById(LAUNCH_ID)].startAt);
     // v2.0: the Void's event counts from Void entry (pairs at the warp)
     if (def && def.firesAfterEntryPairs != null) at = (game.voidBasePairs != null ? game.voidBasePairs : game.pairs) + def.firesAfterEntryPairs;
-    game.eventNext = def ? { zone: stage().id, score: at, def } : null;
+    game.eventNext = def && eventPlayable(def) ? { zone: stage().id, score: at, def } : null;
+  }
+  // v0.8.4 fail safe: public builds never draw marked placeholders. Missing = the def has a pack placeholder and its sprite isn't loaded.
+  function eventArtMissing(d) {
+    if (!d || !d.placeholder) return false;
+    const S = sprites.sheets;
+    if (d.type === 'laneWave') return !(d.rowSheets || []).every(k => S[k]);
+    return !S[d.sheet];
+  }
+  function eventPlayable(d) {
+    if (DEBUG || !CONFIG.events.releaseSkipsMissingArt || !eventArtMissing(d)) return true;
+    const L = game.stats.eventsSkippedArt = game.stats.eventsSkippedArt || [];
+    if (!L.includes(d.id)) { L.push(d.id); console.info(`[events] ${d.id}: art missing, skipped (release build)`); }
+    return false;
   }
 
   // Stage switch (visuals crossfade, event schedule, optional speed hold)
@@ -1200,7 +1250,7 @@ function startEngine(PACK) {
     if (qaEvent && qaEvent !== 'rocket') {
       const def = Object.values(CONFIG.events.list).find(d => d.id === qaEvent);
       const zone = Object.keys(CONFIG.events.list).find(z => CONFIG.events.list[z].id === qaEvent);
-      if (def) game.eventDue = { zone, score: game.pairs, def, forced: true };
+      if (def && eventPlayable(def)) game.eventDue = { zone, score: game.pairs, def, forced: true };
     }
     game.speed = currentSpeed();
   }
@@ -1545,7 +1595,7 @@ function startEngine(PACK) {
     if (def.repeatEvery && (!CONFIG.events.repeatOnlyInZone || due.zone === stage().id)) {
       let n = due.score + def.repeatEvery;
       while (n <= game.pairs) n += def.repeatEvery;
-      game.eventNext = { zone: due.zone, score: n, def };
+      game.eventNext = eventPlayable(def) ? { zone: due.zone, score: n, def } : null;
     } else if (game.eventNext && game.eventNext.zone === due.zone) {
       game.eventNext = null;
     }
@@ -1560,15 +1610,17 @@ function startEngine(PACK) {
         const d = ev.def, sh = sprites.sheets[d.sheet];
         if (sh) { // Art: 160x64, bottom on the ground line, enter x=360, leave x=-160
           const j = sh.json;
-          const w = j.size ? j.size[0] : sh.def.w, h = j.size ? j.size[1] : sh.def.h;
-          ev.data = { sprite: true, x: W, w, h, rects: j.rects, vx: (W + w) / d.seconds };
-        } else {
-          ev.data = { sprite: false, x: W + 10, w: d.length, h: d.floorRise, rects: [[6, 6, d.length - 12, d.floorRise - 6]], vx: (W + 20 + d.length) / d.seconds };
+          const w = j.size ? j.size[0] : sh.def.w, h = j.size ? j.size[1] : sh.def.h, S = d.solid;
+          const floor = S ? S.floor : (j.floor || h); // v0.8.5: sprite row 'floor' sits on GROUND_Y; rects span solidTop..floor (Art)
+          ev.data = { sprite: true, x: W, w, h, floor, rects: j.rects, vx: (W + w) / d.seconds };
+        } else { // debug placeholder: one solid block of Art's solidHeight from the floor (no fly-under)
+          const sh2 = d.solid ? d.solid.height : d.floorRise;
+          ev.data = { sprite: false, x: W + 10, w: d.length, h: sh2, floor: sh2, rects: [[6, 0, d.length - 12, sh2]], vx: (W + 20 + d.length) / d.seconds };
         }
       },
       update(ev, dt) { ev.data.x -= ev.data.vx * dt; },
       done(ev) { return ev.data.x + ev.data.w <= 0; },
-      hitRects(ev) { const d = ev.data, top = GROUND_Y - d.h; return d.rects.map(([x, y, w, h]) => [d.x + x, top + y, w, h]); },
+      hitRects(ev) { const d = ev.data, top = GROUND_Y - (d.floor || d.h); return d.rects.map(([x, y, w, h]) => [d.x + x, top + y, w, h]); },
       hits(ev, cx, cy, r) { return this.hitRects(ev).some(([x, y, w, h]) => circleRect(cx, cy, r, x, y, w, h)); },
       lane: eventLane,
     },
@@ -1639,6 +1691,34 @@ function startEngine(PACK) {
       hits(ev, cx, cy, r) {
         return ev.data.inv.some(m => { if (m.gone) return false; const p = this.pos(ev, m); return (p.x - cx) ** 2 + (p.y - cy) ** 2 < (r + m.r) ** 2; });
       },
+      lane: eventLane,
+    },
+    // v0.8.4: catch event (Santa Rio). Pieces drift right -> left; touching one catches it (+perItem x multiplier, up to maxItems),
+    // plays Art's confetti burst; never hurts (hits() false). One sheet frame per piece (frameMode), numbers from the pack def.
+    confettiShower: {
+      start(ev) {
+        const d = ev.def, sh = sprites.sheets[d.sheet], n = sh ? sh.def.frames.length : 1;
+        ev.data = { items: [], bursts: [], acc: d.spawnEvery, spawned: 0, caught: 0, n, r: sh && sh.json.r ? sh.json.r : d.r };
+      },
+      update(ev, dt) {
+        const d = ev.def, D = ev.data, G = CONFIG.ghost, gy = game.ghost.y + hitboxOffsetY;
+        D.acc += dt;
+        while (ev.t < d.seconds && D.acc >= d.spawnEvery) { D.acc -= d.spawnEvery; D.items.push({ x: W + d.size, y: rand(d.minY, d.maxY), f: D.spawned % D.n, ph: rand(0, TAU), gone: false }); D.spawned++; }
+        for (const m of D.items) {
+          if (m.gone) continue;
+          m.x += d.vx * dt; m.y += d.vy * dt * Math.sin(ev.t * d.spin + m.ph);
+          if (m.x < -d.size) { m.gone = true; continue; }
+          if (D.caught < d.maxItems && (m.x - G.x) ** 2 + (m.y - gy) ** 2 < (hitboxRadius + D.r) ** 2) {
+            m.gone = true; D.caught++; D.bursts.push({ x: m.x, y: m.y, t: 0 });
+            const pts = d.perItem * multiplier(); game.score += pts; floatText(`+${pts}`, m.x, m.y - 20, CONFIG.colors.warning);
+            game.stats.confettiCaught = (game.stats.confettiCaught || 0) + 1;
+          }
+        }
+        for (const b of D.bursts) b.t += dt;
+        D.bursts = D.bursts.filter(b => b.t < d.burstSeconds);
+      },
+      done(ev) { return ev.data.items.every(m => m.gone) && !ev.data.bursts.length; },
+      hits() { return false; },
       lane: eventLane,
     },
     // pack events with type null (ghost: batSwarm, pumpkinRoll, sweetShower, nightBus) are stubs (logged only)
@@ -2460,8 +2540,46 @@ function startEngine(PACK) {
     else if (!building && ++sweepN % CONFIG.render.evictSweepFrames === 0) evictLayers();
     lastFrameKeys = frameKeys; frameKeys = new Set();
   }
+  const partsCache = new Map(); // v0.8.4: spec+layer -> { c, top, sc, d, f } (insertion order = LRU)
+  function cachedPartSlot(v, layer, m) {
+    const PC = CONFIG.render.partsCache, list = v.spec[layer] || [];
+    if (!PC.enabled || !list.length) return null;
+    let ids = partsCache.get(v.spec); if (!ids) partsCache.set(v.spec, ids = {});
+    const hit = ids[layer];
+    if (hit && hit.sc === m.a && hit.d === m.d && hit.f === m.f) return hit;
+    // cacheable: gradients only before image parts (they stay live), every image decoded
+    let seenImg = false, top = Infinity, bot = -Infinity;
+    const sc = m.a, TW = A.backgrounds.tileWidth, Y = wy => Math.round(m.f + wy * m.d);
+    for (const p of list) {
+      if (p.kind === 'gradient') { if (seenImg) return null; continue; }
+      seenImg = true;
+      if (p.kind === 'sprites') { if (!A.backgrounds.voidParts.glints) continue; for (const pl of p.placements || []) { const sp = p.sprites[pl.sprite]; if (!sp || !v.img[sp.file]) return null; const k = pl.scale || 1, y = pl.y - sp.anchor[1] * k; top = Math.min(top, Y(y)); bot = Math.max(bot, Y(y + sp.size1x[1] * k)); } }
+      else if (p.file) { if (!v.img[p.file]) return null; const h = p.drawH || p.size1x[1], ny = p.repeat === 'xy' || p.repeat === 'y' ? Math.ceil((p.drawH || 640) / h) : 1; top = Math.min(top, Y(p.y || 0)); bot = Math.max(bot, Y((p.y || 0) + ny * h)); }
+    }
+    if (!seenImg || !(bot > top)) return null;
+    const c = (hit && hit.c) || document.createElement('canvas'); c.width = Math.round(TW * sc) + 2; c.height = bot - top;
+    const x = c.getContext('2d'); x.imageSmoothingEnabled = A.backgrounds.voidParts.smoothing;
+    drawPartsTo(x, v, layer, 0, { a: sc, d: m.d, f: m.f - top }, false);
+    const e = { c, top, sc, d: m.d, f: m.f, bytes: c.width * c.height * 4 };
+    delete ids[layer]; ids[layer] = e;
+    // LRU by build order: drop the oldest beyond maxEntries
+    partsOrder.push([ids, layer]);
+    while (partsOrder.length > PC.maxEntries) { const [o, l] = partsOrder.shift(); if (o[l] && o[l] !== e) { o[l].c.width = o[l].c.height = 0; delete o[l]; } }
+    game.stats.partsBuilds = (game.stats.partsBuilds || 0) + 1;
+    let b = 0; for (const o of partsCache.values()) for (const k in o) b += o[k].bytes; game.stats.partsCacheMB = b / 1048576; game.stats.partsCacheMBPeak = Math.max(game.stats.partsCacheMBPeak || 0, game.stats.partsCacheMB);
+    return e;
+  }
+  const partsOrder = [];
   function drawVoidSlot(layer, dx, slot, m, cwMax, pv) { // v0.6.1: Art §14.2 parts inside one 720 world-px slot (backing px)
-    const v = pv || sprites.voidParts, sc = m.a, TW = A.backgrounds.tileWidth, y0 = m.f;
+    const v = pv || sprites.voidParts;
+    const hit = cachedPartSlot(v, layer, m);
+    if (hit) { // v0.8.4: live gradients (non-scrolling) + one 1:1 blit of the composed slot
+      if (slot === 0) { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); drawPartsTo(ctx, v, layer, 0, m, true, cwMax); ctx.restore(); }
+      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(hit.c, dx, hit.top); ctx.restore();
+      game.stats.voidSlots = (game.stats.voidSlots || 0) + 1; game.stats.partsBlits = (game.stats.partsBlits || 0) + 1;
+      return;
+    }
+    const sc = m.a, TW = A.backgrounds.tileWidth, y0 = m.f;
     const X = wx => Math.round(dx + wx * sc), Y = wy => Math.round(y0 + wy * m.d);
     ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.imageSmoothingEnabled = A.backgrounds.voidParts.smoothing;
@@ -2489,6 +2607,29 @@ function startEngine(PACK) {
     }
     ctx.restore();
     game.stats.voidSlots = (game.stats.voidSlots || 0) + 1;
+  }
+  function drawPartsTo(x2, v, layer, dx, m, gradOnly, cwMax) { // v0.8.4: identical rounding to drawVoidSlot's raw path
+    const sc = m.a, TW = A.backgrounds.tileWidth, y0 = m.f;
+    const X = wx => Math.round(dx + wx * sc), Y = wy => Math.round(y0 + wy * m.d);
+    for (const p of v.spec[layer] || []) {
+      if (p.kind === 'gradient') {
+        if (!gradOnly) continue;
+        const g = x2.createLinearGradient(0, Y(p.y), 0, Y(p.y + p.h)); g.addColorStop(0, p.top); g.addColorStop(1, p.bottom);
+        x2.fillStyle = g; x2.fillRect(0, Y(p.y), cwMax, Y(p.y + p.h) - Y(p.y));
+      } else if (gradOnly) continue;
+      else if (p.kind === 'sprites') {
+        if (!A.backgrounds.voidParts.glints) continue;
+        for (const pl of p.placements || []) {
+          const sp = p.sprites[pl.sprite], img = sp && v.img[sp.file]; if (!img) continue;
+          const k = pl.scale || 1, w = sp.size1x[0] * k, h = sp.size1x[1] * k, x = pl.x - sp.anchor[0] * k, y = pl.y - sp.anchor[1] * k;
+          x2.drawImage(img, X(x), Y(y), X(x + w) - X(x), Y(y + h) - Y(y));
+        }
+      } else if (p.file && v.img[p.file]) {
+        const img = v.img[p.file], w = p.drawW || p.size1x[0], h = p.drawH || p.size1x[1];
+        const nx = p.repeat === 'xy' || p.repeat === 'x' ? Math.ceil(TW / w) : 1, ny = p.repeat === 'xy' || p.repeat === 'y' ? Math.ceil((p.drawH || 640) / h) : 1;
+        for (let ix = 0; ix < nx; ix++) for (let iy = 0; iy < ny; iy++) { const x = ix * w, y = (p.y || 0) + iy * h; x2.drawImage(img, X(x), Y(y), X(x + w) - X(x), Y(y + h) - Y(y)); }
+      }
+    }
   }
   function drawArtBackground(id) {
     const B = A.backgrounds, TW = B.tileWidth, m = ctx.getTransform(), sc = m.a, cwMax = canvas.width;
@@ -2745,10 +2886,25 @@ function startEngine(PACK) {
     ctx.beginPath(); ctx.moveTo(x + 14, y); ctx.lineTo(x + 30, y - 18); ctx.lineTo(x + 50, y - 18); ctx.lineTo(x + 58, y); ctx.moveTo(x + 30, y - 18); ctx.lineTo(x + 36, y); ctx.lineTo(x + 50, y - 18); ctx.stroke();
   }
 
+  function drawFgScroll(id) { // v0.8.7: full-speed (parallax 1) ground lip; pair-pause and game.speed unchanged
+    const F = CONFIG.render.fgScroll;
+    if (!F || !F.enabled) return;
+    if (!F.always && !(game.event && game.event.phase !== 'waiting')) return;
+    const interval = F.interval, w = F.width, h = F.height;
+    const off = (game.dist * F.parallax) % interval;
+    game.fgScrollX = game.dist * F.parallax;
+    const cy = GROUND_Y + (F.y || 0);
+    ctx.fillStyle = F.fill || (CONFIG.looks[id] || {}).groundTop || '#D2E3F2';
+    if (F.stroke) { ctx.strokeStyle = F.stroke; ctx.lineWidth = F.lineWidth || 1; ctx.lineJoin = 'round'; }
+    for (let x = -off - w; x < W + interval; x += interval) {
+      ctx.beginPath(); ctx.ellipse(x + w / 2, cy, w / 2, h, 0, Math.PI, 0); ctx.fill();
+      if (F.stroke) ctx.stroke();
+    }
+  }
   function drawGround(id) {
     frameStages.add(id + ':ground');
     const look = CONFIG.looks[id], gs = lookStyle(id).ground;
-    if (gs === 'artNear' && artBg(id)) return; // v0.8.0: Art's near band is the ground (the band only as a placeholder)
+    if (gs === 'artNear' && artBg(id)) { drawFgScroll(id); return; } // v0.8.0: Art's near band is the ground; v0.8.7: 1.0 lip on top
     if (gs === 'mistFloor') { // v0.6 (Art §14.2): no solid band; a soft translucent mist floor so the death line still reads
       const gr = ctx.createLinearGradient(0, GROUND_Y, 0, H);
       gr.addColorStop(0, 'rgba(243, 234, 255, 0.30)'); gr.addColorStop(1, 'rgba(217, 198, 245, 0.08)');
@@ -2761,7 +2917,7 @@ function startEngine(PACK) {
     }
     ctx.fillStyle = look.ground; ctx.fillRect(0, GROUND_Y, W, CONFIG.world.groundHeight);
     ctx.fillStyle = look.groundTop; ctx.fillRect(0, GROUND_Y, W, 8);
-    const off = game.dist % 40;
+    const F = CONFIG.render.fgScroll, off = (game.dist * ((F && F.enabled) ? F.parallax : 1)) % ((F && F.interval) || 40);
     if (gs === 'craters') {
       ctx.fillStyle = 'rgba(30, 25, 50, 0.35)';
       for (let x = -off; x < W + 40; x += 40) { ctx.beginPath(); ctx.ellipse(x + 12, GROUND_Y + 30 + (x % 3) * 8, 10, 4, 0, 0, TAU); ctx.fill(); }
@@ -2945,10 +3101,18 @@ function startEngine(PACK) {
       else { ctx.fillStyle = SA.placeholder[type]; ctx.beginPath(); ctx.arc(cx, cy, sz / 2 - 3, 0, TAU); ctx.fill(); }
     });
   }
+  function drawEventBoxes() { // v0.8.5 (debug only, ghostGame.dbgEventBoxes = true): event hit rects + the GROUND_Y line
+    const B = DEBUG && game._evBoxes; if (!B) return;
+    ctx.save(); ctx.lineWidth = 1; ctx.strokeStyle = '#ff2050'; ctx.fillStyle = 'rgba(255,32,80,0.25)';
+    for (const [x, y, w, h] of B) { ctx.fillRect(x, y, w, h); ctx.strokeRect(x, y, w, h); }
+    ctx.strokeStyle = '#20ff60'; ctx.beginPath(); ctx.moveTo(0, GROUND_Y); ctx.lineTo(W, GROUND_Y); ctx.stroke(); ctx.restore();
+  }
   function drawEvent() {
     const ev = game.event;
+    game._evBoxes = null;
     if (!ev) return;
     const handler = handlerOf(ev.id), type = ev.def.type;
+    if (DEBUG && game.dbgEventBoxes && ev.phase !== 'warning' && handler.hitRects) game._evBoxes = handler.hitRects(ev); // v0.8.5 debug-only hitbox overlay (drawn in drawEventBoxes)
     if (ev.phase === 'warning') {
       const lane = handler.lane(ev);
       const on = Math.floor(ev.t * 8) % 2 === 0;
@@ -2979,6 +3143,15 @@ function startEngine(PACK) {
         }
       }
     }
+    if (ev.phase === 'active' && type === 'confettiShower') { // v0.8.4
+      const d = ev.def, sh = sprites.sheets[d.sheet], bs = sprites.sheets[d.burstSheet];
+      for (const m of ev.data.items) {
+        if (m.gone) continue;
+        if (sh) drawSheet(d.sheet, m.x - sh.def.w / 2, m.y - sh.def.h / 2, ev.t, { frame: m.f });
+        else if (d.placeholder) drawMarkedPh(m.x, m.y, ev.data.r, d.placeholder);
+      }
+      for (const b of ev.data.bursts) if (bs) drawSheet(d.burstSheet, b.x - bs.def.w / 2, b.y - bs.def.h / 2, 0, { frame: Math.min(bs.def.frames.length - 1, Math.floor(b.t * bs.def.fps)) });
+    }
     if (ev.phase === 'active' && type === 'laneWave') { // v0.6: lane telegraph + pixel invaders (Art sprite if it lands)
       const h = handler, d = ev.def;
       ev.data.lanes.forEach((ly, w) => {
@@ -3000,7 +3173,7 @@ function startEngine(PACK) {
       }
     }
     if (ev.phase === 'active' && type === 'groundSweep') {
-      const d = ev.data, top = GROUND_Y - d.h;
+      const d = ev.data, top = GROUND_Y - (d.floor || d.h);
       if (d.sprite) { drawSheet(ev.def.sheet, d.x, top, ev.t); return; }
       if (ev.def.placeholder) { drawMarkedBox(d.x, top, d.w, d.h, ev.def.placeholder); return; } // v0.8.0
       const c = CONFIG.colors;
@@ -3013,12 +3186,14 @@ function startEngine(PACK) {
   const INVADER_B = ['00100000100', '10010001001', '10111111101', '11101110111', '11111111111', '01111111110', '00100000100', '01000000010'];
   const invaderPaths = [INVADER, INVADER_B].map(rows => { const p = new Path2D(); rows.forEach((r, y) => [...r].forEach((b, x) => { if (b === '1') p.rect(x, y, 1, 1); })); return p; });
   function drawMarkedPh(x, y, r, P) { // v0.8.0: MARKED placeholder (no Art yet): colour disc, dashed ring, '?'
+    if (!DEBUG) { game.stats.placeholderBlocked = (game.stats.placeholderBlocked || 0) + 1; return; } // v0.8.4: never in a public build
     ctx.fillStyle = P.color; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
     ctx.setLineDash([3, 3]); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, r + 2, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle = '#2b1d3d'; ctx.font = `bold ${Math.round(r * 1.2)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('?', x, y + 1);
     game.stats.placeholderDraws = (game.stats.placeholderDraws || 0) + 1;
   }
   function drawMarkedBox(x, y, w, h, P) {
+    if (!DEBUG) { game.stats.placeholderBlocked = (game.stats.placeholderBlocked || 0) + 1; return; } // v0.8.4: never in a public build
     ctx.fillStyle = P.color; roundRect(x, y, w, h, 8); ctx.fill();
     ctx.setLineDash([5, 4]); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; roundRect(x + 2, y + 2, w - 4, h - 4, 7); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle = '#2b1d3d'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(`PLACEHOLDER: ${P.label}`, x + w / 2, y + h / 2);
@@ -3092,7 +3267,7 @@ function startEngine(PACK) {
       else { ctx.fillStyle = '#efe8ff'; ctx.beginPath(); ctx.arc(p.x, p.y, 18 * sc, 0, TAU); ctx.fill(); }
     }
     ctx.globalAlpha = 1;
-    if (lay.ry > -160) {
+    if (lay.ry > -160) edgeClip(() => {
       if (lay.flame) {
         const fx = lay.rx + 24, fy = lay.ry + 144;
         const ok = lay.flame === 'ignite' ? drawSheet('flame', fx, fy, 0, { frame: 2 }) : drawSheet('flame', fx, fy, c.t);
@@ -3104,7 +3279,7 @@ function startEngine(PACK) {
         ctx.fillStyle = col.rocket; ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x + 34, y + 40, x + 26, y + 144); ctx.lineTo(x - 26, y + 144); ctx.quadraticCurveTo(x - 34, y + 40, x, y); ctx.fill();
         ctx.fillStyle = '#ffe08a'; ctx.beginPath(); ctx.arc(x, y + 66, 13, 0, TAU); ctx.fill();
       }
-    }
+    });
     ctx.restore();
     drawParticles();
     drawGhost();
@@ -3192,18 +3367,40 @@ function startEngine(PACK) {
       const d = Math.abs(s - swapAt), a = M.veil.peak * (1 - d / M.veil.halfWidth);
       if (a > 0) { ctx.globalAlpha = a; ctx.fillStyle = CONFIG.colors.vLilac; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
     }
+    edgeClip(() => drawWarpSleigh(c, s)); // v0.8.5: the hero rides the sleigh out through the top
     drawParticles();
     drawGhost();
     drawFloatTexts();
     drawHUD();
   }
+  // v0.8.4: pack sleigh hop (Santa). Sleigh enters from x=W under the hero (y + enterDy), hero hops into the seat at seatS
+  // (hop sparkle), then sleigh + hero rise and streak off-left until goneS. All numbers: WARP.sleigh (pack). Absent art -> no-op.
+  function drawWarpSleigh(c, s) {
+    const SL = WARP.sleigh, sh = SL && sprites.sheets[SL.sheet];
+    c.sleighSeated = false;
+    if (!sh || s >= SL.goneS) return;
+    const G = CONFIG.ghost, A = CONFIG.assets.ghost, hx = c.gx != null ? c.gx : G.x, hy = game.ghost.y;
+    const p = clamp(s / SL.seatS, 0, 1), e = easeIn(clamp((s - SL.leaveS) / (SL.goneS - SL.leaveS), 0, 1));
+    const seatX = lerp(W + (SL.enterDx ?? SL.seat[0]), hx, 1 - (1 - p) * (1 - p)) + SL.exitX * e, seatY = hy + SL.enterDy * (1 - p) + SL.riseDy * e;
+    const sx = seatX - SL.seat[0], sy = seatY - SL.seat[1];
+    if (s >= SL.seatS) { // seated: hero idle frame 0 at heroScale, anchor on the seat
+      c.sleighSeated = true;
+      const img = sprites.ghost.normal, k = SL.heroScale * G.size / (A.scaleRef || A.frameSize), fw = (A.frameW || A.frameSize), fh = (A.frameH || A.frameSize), r = img ? img.height / fh : 1;
+      if (img) ctx.drawImage(img, 0, 0, fw * r, fh * r, seatX - A.anchor[0] * k, seatY - A.anchor[1] * k, fw * k, fh * k);
+    }
+    drawSheet(SL.sheet, sx, sy, c.t);
+    const sp = sprites.sheets[SL.sparkle], st = s - SL.seatS;
+    if (sp && st >= 0 && st * sp.def.fps < sp.def.frames.length) drawSheet(SL.sparkle, seatX - SL.sparkleSize / 2, seatY - SL.sparkleSize / 2, 0, { frame: Math.floor(st * sp.def.fps) });
+    game.stats.sleighDrawn = (game.stats.sleighDrawn || 0) + 1;
+  }
   // ---- Ghost -----------------------------------------------------------------------------------
-  function drawGhost() {
+  function drawGhost() { return edgeClip(drawGhostRaw); }
+  function drawGhostRaw() {
     const G = CONFIG.ghost, g = game.ghost, s = G.size;
     const alpha = game.state === 'playing' && !game.cutscene ? Math.min(1, game.physAcc * CONFIG.world.physicsHz) : 1;
     const y = lerp(g.prevY, g.y, alpha); // render interpolation between fixed physics steps
     const cs = game.cutscene;
-    if (cs && cs.ghostHidden) return;
+    if (cs && (cs.ghostHidden || cs.sleighSeated)) return; // v0.8.4: seated in the sleigh = drawn by drawWarpSleigh
     ctx.save();
     const sp = game.sp, SA = CONFIG.specials.art, k = s / 64;
     if (game.state === 'playing' && (sp.graceT > 0 || sp.invulnT > 0 || sp.knock) && Math.floor(game.time * CONFIG.specials.extraLife.blinkHz) % 2) ctx.globalAlpha = 0.35;
@@ -3233,7 +3430,8 @@ function startEngine(PACK) {
     const ox = TR.nozzle[0] * k, oy = TR.nozzle[1] * k, x = CONFIG.ghost.x + game.sp.shift + ox * Math.cos(a) - oy * Math.sin(a), y = g.y + ox * Math.sin(a) + oy * Math.cos(a);
     game.trails.push({ x, y, a, t: 0 }); game.stats.trails = (game.stats.trails || 0) + 1;
   }
-  function drawHeroTrails() {
+  function drawHeroTrails() { return edgeClip(drawHeroTrailsRaw); }
+  function drawHeroTrailsRaw() {
     if (!game.trails.length || game.death) return;
     const TR = A.ghost.trail, img = sprites.ghost.trail, k = CONFIG.ghost.size / (A.ghost.scaleRef || A.ghost.frameSize);
     for (const q of game.trails) {
@@ -3412,6 +3610,11 @@ function startEngine(PACK) {
   const hudFont = (weight) => px => `${weight} ${px}px ${CONFIG.ui.font}`;
   function text(str, x, y, size, opts = {}) {
     ctx.font = hudFont(opts.weight || 'bold')(size);
+    if (opts.maxW) { // v0.8.4: measure (incl. stroke) and scale the font down to fit
+      const w0 = ctx.measureText(str).width + Math.max(3, size / 6);
+      if (w0 > opts.maxW) { size = Math.max(opts.minSize || 1, Math.floor(size * opts.maxW / w0)); ctx.font = hudFont(opts.weight || 'bold')(size); }
+      game.stats.titleFitPx = size;
+    }
     ctx.textAlign = opts.align || 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
     ctx.lineWidth = Math.max(3, size / 6); ctx.strokeStyle = CONFIG.colors.textShadow; ctx.strokeText(str, x, y);
     ctx.fillStyle = opts.color || CONFIG.colors.text; ctx.fillText(str, x, y);
@@ -3428,7 +3631,7 @@ function startEngine(PACK) {
     const blink = 0.6 + 0.4 * Math.sin(game.time * 4);
     if (game.state === 'loading') { ctx.globalAlpha = blink; text('Loading…', W / 2, H / 2, 24); ctx.globalAlpha = 1; return; }
     if (game.state === 'ready') {
-      text(CONFIG.ui.title, W / 2, 150, 44);
+      { const TF = CONFIG.ui.titleFit; text(CONFIG.ui.title, W / 2, TF.y, TF.size, { maxW: W - TF.pad * 2, minSize: TF.minSize }); }
       if (game.stageIndex > 0) text(CONFIG.looks[stage().id].name, W / 2, 230, 20, { color: CONFIG.colors.accent });
       if (game.golden) text(CONFIG.ui.goldenText, W / 2, 196, 18, { color: CONFIG.colors.ghostGolden });
       ctx.globalAlpha = blink; text('Tap to start', W / 2, H / 2 + 50, 26); ctx.globalAlpha = 1;
@@ -3619,6 +3822,7 @@ function startEngine(PACK) {
     if (from) { ctx.globalAlpha = 1 - t; drawGround(from); ctx.globalAlpha = 1; }
     drawFloatGlows();
     drawEvent();
+    drawEventBoxes();
     if (from) drawAmbientFront(from, 1 - t);
     drawAmbientFront(cur, t);
     drawParticles();
@@ -3644,7 +3848,7 @@ function startEngine(PACK) {
     const zone = Object.keys(CONFIG.events.list).find(z => CONFIG.events.list[z].id === id);
     if (id === 'rocket') { game.pairs = Math.max(game.pairs, CONFIG.launch.atScore); return true; }
     if (id === 'warp') { game.score = Math.max(game.score, WARP.atScore); return true; }
-    if (!zone) return false;
+    if (!zone || !eventPlayable(CONFIG.events.list[zone])) return false;
     game.eventDue = { zone, score: game.pairs, def: CONFIG.events.list[zone], forced: true };
     return true;
   };
@@ -3699,7 +3903,7 @@ function startEngine(PACK) {
 .gg-empty{text-align:center;opacity:.8;padding:12px}
 .gg-btn:disabled{opacity:.45;cursor:default;transform:none}
 .gg-share-link{text-decoration:none}
-.gg-pack{position:fixed;display:none;font-family:${CONFIG.ui.font};font-weight:bold;transform:translate(-50%,-50%);z-index:5;font-size:${CONFIG.ui.packPicker.fontSize}px;min-height:${CONFIG.ui.packPicker.minHeight}px;padding:0 ${CONFIG.ui.packPicker.padX}px}.gg-pack:active{transform:translate(-50%,-50%) scale(.96)}
+.gg-pack{position:fixed;display:none;font-family:${CONFIG.ui.font};font-weight:bold;transform:translate(-50%,-50%);z-index:5;font-size:${CONFIG.ui.packPicker.fontSize}px;min-height:${CONFIG.ui.packPicker.minHeight}px;padding:0 ${CONFIG.ui.packPicker.padX}px;width:max-content;max-width:calc(100vw - ${CONFIG.ui.titleFit.pad * 2}px)}.gg-pack:active{transform:translate(-50%,-50%) scale(.96)}
 .gg-sub{text-align:center;opacity:.8;font-size:14px;margin:-6px 0 12px}
 .gg-item:disabled{opacity:.5;cursor:default}
 .gg-item.gg-pk{flex-direction:column;align-items:flex-start;justify-content:center;text-align:left;gap:${CONFIG.ui.packPicker.rowGap}px;line-height:${CONFIG.ui.packPicker.lineHeight}}
@@ -4023,6 +4227,7 @@ function startEngine(PACK) {
     const t0 = performance.now();
     if (!game.paused) update(dt);
     draw();
+    if (bleed.length) drawBleed();
     syncUi();
     prewarm();
     const cost = performance.now() - t0;

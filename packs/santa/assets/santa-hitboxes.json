@@ -3173,5 +3173,483 @@
    "fps": 12,
    "loop": false
   }
+ },
+ "events": {
+  "santa-reindeer": {
+   "strip": "event-santa-reindeer-strip",
+   "size": [
+    40,
+    40
+   ],
+   "frames": 4,
+   "fps": 8,
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 14,
+   "faces": "left",
+   "event": "reindeerStampede",
+   "art": "flying reindeer, red nose + bell collar, sparkle hoof-trail behind (right). Sky object: no anchor."
+  },
+  "santa-pigeon": {
+   "strip": "event-santa-pigeon-strip",
+   "size": [
+    40,
+    40
+   ],
+   "frames": 4,
+   "fps": 8,
+   "type": "circle",
+   "cx": 20,
+   "cy": 20,
+   "r": 14,
+   "faces": "left",
+   "event": "bigBenPigeons",
+   "art": "Santa-hat pigeon flock (flying)"
+  },
+  "santa-aurora-a": {
+   "strip": "event-santa-aurora-wisp-a-strip",
+   "size": [
+    40,
+    40
+   ],
+   "frames": 4,
+   "fps": 8,
+   "type": "circle",
+   "cx": 18,
+   "cy": 20,
+   "r": 14,
+   "faces": "left",
+   "event": "auroraStorm",
+   "art": "aurora wisp (#9EF0C8); comet tail streams right (behind)"
+  },
+  "santa-aurora-b": {
+   "strip": "event-santa-aurora-wisp-b-strip",
+   "size": [
+    40,
+    40
+   ],
+   "frames": 4,
+   "fps": 8,
+   "type": "circle",
+   "cx": 18,
+   "cy": 20,
+   "r": 14,
+   "faces": "left",
+   "event": "auroraStorm",
+   "art": "aurora wisp (#FFB3E1); comet tail streams right (behind)"
+  },
+  "santa-aurora-c": {
+   "strip": "event-santa-aurora-wisp-c-strip",
+   "size": [
+    40,
+    40
+   ],
+   "frames": 4,
+   "fps": 8,
+   "type": "circle",
+   "cx": 18,
+   "cy": 20,
+   "r": 14,
+   "faces": "left",
+   "event": "auroraStorm",
+   "art": "aurora wisp (#C9B8FF); comet tail streams right (behind)"
+  },
+  "santa-pop": {
+   "strip": "event-santa-pop-strip",
+   "size": [
+    64,
+    64
+   ],
+   "frames": 6,
+   "fps": 12,
+   "anchor": [
+    32,
+    32
+   ],
+   "art": "snow-sparkle smash burst (Rush), play once"
+  },
+  "santa-warning": {
+   "strip": "ui-santa-event-warning-strip",
+   "size": [
+    40,
+    40
+   ],
+   "frames": 2,
+   "fps": 4,
+   "anchor": [
+    20,
+    20
+   ],
+   "art": "candy-red warning triangle with snowcap"
+  },
+  "santa-balloon": {
+   "strip": "event-santa-parade-balloon-strip",
+   "size": [
+    72,
+    48
+   ],
+   "frames": 2,
+   "fps": 4,
+   "type": "circle",
+   "cx": 22,
+   "cy": 18,
+   "r": 12,
+   "travel": "up-left",
+   "event": "paradeBalloons",
+   "art": "loose parade balloon drifting up; its string trails down-right. NOTE cx/cy differ from the ghost meteor default (18,32): set from json."
+  },
+  "santa-firework": {
+   "strip": "event-santa-firework-strip",
+   "size": [
+    72,
+    48
+   ],
+   "frames": 2,
+   "fps": 10,
+   "type": "circle",
+   "cx": 18,
+   "cy": 32,
+   "r": 12,
+   "travel": "down-left",
+   "event": "harbourFireworks",
+   "art": "spent firework star falling (sky object) with spark trail up-right"
+  },
+  "santa-icefall": {
+   "strip": "event-santa-icefall-strip",
+   "size": [
+    72,
+    48
+   ],
+   "frames": 2,
+   "fps": 10,
+   "type": "circle",
+   "cx": 18,
+   "cy": 32,
+   "r": 12,
+   "travel": "down-left",
+   "event": "icefall",
+   "art": "ice chunk calved off the Antarctic cliffs, frost trail up-right"
+  },
+  "santa-camels": {
+   "strip": "event-santa-camel-caravan-strip",
+   "size": [
+    192,
+    72
+   ],
+   "frames": 2,
+   "fps": 10,
+   "rects": [
+    [
+     2,
+     8,
+     22,
+     34
+    ],
+    [
+     16,
+     22,
+     44,
+     50
+    ],
+    [
+     66,
+     8,
+     22,
+     34
+    ],
+    [
+     80,
+     22,
+     44,
+     50
+    ],
+    [
+     130,
+     8,
+     22,
+     34
+    ],
+    [
+     144,
+     22,
+     44,
+     50
+    ]
+   ],
+   "bottom": "ground",
+   "floor": 72,
+   "solidTop": 8,
+   "solidHeight": 64,
+   "heightNote": "72 = art box only. Feet touch y=72 = GROUND_Y. Solid = per camel head/neck [x-14,8,22,34] + body/legs [x,22,44,50]; Santa hats (y<8) and the rope are not solid.",
+   "faces": "left",
+   "event": "camelCaravan",
+   "art": "three camels on lead ropes, bells + Santa hats; feet on the ground line"
+  },
+  "santa-train": {
+   "strip": "event-santa-bullet-train-strip",
+   "size": [
+    288,
+    72
+   ],
+   "frames": 2,
+   "fps": 10,
+   "rects": [
+    [
+     6,
+     30,
+     40,
+     42
+    ],
+    [
+     30,
+     18,
+     258,
+     54
+    ]
+   ],
+   "bottom": "ground (train sits on its own rail, rail bottom = sprite bottom)",
+   "floor": 72,
+   "railTop": 64,
+   "solidTop": 18,
+   "solidHeight": 54,
+   "heightNote": "72 = art box. Body y18-60, wheels to y65 on the rail (top y64), sleepers end at y72 = GROUND_Y. Solid all the way down (the 12px under the body is the moving rail; no fly-under gap).",
+   "faces": "left",
+   "event": "bulletTrain",
+   "art": "kawaii shinkansen with a festive stripe, on its rail"
+  }
+ },
+ "cutscene": {
+  "santa-sleigh": {
+   "strip": "cut-santa-sleigh-strip",
+   "size": [
+    224,
+    96
+   ],
+   "frames": 4,
+   "fps": 10,
+   "faces": "left (flies right->left, the same way as the world scrolls)",
+   "seat": [
+    140,
+    46
+   ],
+   "note": "draw Santa C idle (k=0.75) with his anchor at seat, behind the sleigh front: draw sleigh, then hero, then re-draw nothing (sleigh rim covers his legs since hero is drawn first is NOT required; simplest order = hero then sleigh)."
+  },
+  "santa-hop-sparkle": {
+   "strip": "cut-santa-hop-sparkle-strip",
+   "size": [
+    64,
+    64
+   ],
+   "frames": 6,
+   "fps": 12,
+   "anchor": [
+    32,
+    32
+   ],
+   "note": "play once where Santa lands in the seat"
+  },
+  "santa-swoosh": {
+   "strip": "ui-santa-swoosh-strip",
+   "size": [
+    240,
+    64
+   ],
+   "frames": 6,
+   "fps": 12,
+   "note": "transitionArt.swoosh drop-in (240x64 6f)"
+  },
+  "timeline": {
+   "authoredMs": 2000,
+   "scaleTo": "cutsceneSeconds",
+   "units": {
+    "t": "ms",
+    "pos": "screen px",
+    "seatPx": "sleigh sprite px"
+   },
+   "events": [
+    {
+     "t_ms": 0,
+     "action": "sleighEnter",
+     "params": {
+      "sheet": "santa-sleigh",
+      "fps": 10,
+      "frames": 4,
+      "loop": true,
+      "from": {
+       "seatX": "W+140",
+       "seatY": "hy+40"
+      },
+      "to": {
+       "seatX": "hx",
+       "seatY": "hy"
+      },
+      "durMs": 600,
+      "easeX": "outQuad",
+      "easeY": "linear",
+      "dxFromW": 140,
+      "dy": 40
+     }
+    },
+    {
+     "t_ms": 600,
+     "action": "santaHop",
+     "params": {
+      "from": "hero anchor (hx,hy)",
+      "to": {
+       "seat": [
+        140,
+        46
+       ]
+      },
+      "durMs": 0,
+      "heroFrame": 0,
+      "heroScale": 0.75,
+      "drawOrder": [
+       "hero",
+       "sleigh"
+      ],
+      "note": "snap: the sleigh arrives under the hero, so no arc"
+     }
+    },
+    {
+     "t_ms": 600,
+     "action": "sparkle",
+     "params": {
+      "sheet": "santa-hop-sparkle",
+      "frames": 6,
+      "fps": 12,
+      "durMs": 500,
+      "loop": false,
+      "at": "seat",
+      "anchor": [
+       32,
+       32
+      ],
+      "size": 64
+     }
+    },
+    {
+     "t_ms": 600,
+     "action": "sleighExit",
+     "params": {
+      "durMs": 1000,
+      "dx": -240,
+      "dy": -180,
+      "ease": "inQuad",
+      "carriesHero": true
+     }
+    },
+    {
+     "t_ms": 1600,
+     "action": "sleighGone",
+     "params": {
+      "hide": [
+       "sleigh",
+       "hero"
+      ]
+     }
+    },
+    {
+     "t_ms": 2000,
+     "action": "end",
+     "params": {
+      "stageSwap": "engine warp timeline (streak/mist) unchanged"
+     }
+    }
+   ]
+  }
+ },
+ "fx": {
+  "rushAura": {
+   "file": "fx-santa-rush-aura-strip.png",
+   "w": 96,
+   "h": 96,
+   "frames": 4,
+   "fps": 8,
+   "dx": -16,
+   "dy": -16,
+   "note": "centre (48,48) = hero anchor"
+  },
+  "heart": {
+   "file": "santa-heart-overlay-strip.png",
+   "w": 20,
+   "h": 20,
+   "frames": 2,
+   "fps": 4,
+   "dx": 46,
+   "dy": 2,
+   "note": "sits right of the hood bobble, clear of the face"
+  },
+  "heartPop": {
+   "file": "fx-santa-heart-pop-strip.png",
+   "w": 96,
+   "h": 96,
+   "frames": 6,
+   "fps": 12
+  },
+  "heartBreak": {
+   "file": "fx-santa-heart-break-strip.png",
+   "w": 96,
+   "h": 96,
+   "frames": 6,
+   "fps": 12
+  },
+  "frostBurst": {
+   "file": "fx-santa-frost-burst-strip.png",
+   "w": 96,
+   "h": 96,
+   "frames": 6,
+   "fps": 12
+  },
+  "candyBurst": {
+   "file": "fx-santa-bauble-burst-strip.png",
+   "w": 128,
+   "h": 128,
+   "frames": 6,
+   "fps": 12
+  },
+  "frostVignette": {
+   "file": "ui-santa-frost-vignette.png",
+   "w": 360,
+   "h": 640
+  },
+  "flakes": [
+   "fx-santa-frost-flake-a.png",
+   "fx-santa-frost-flake-b.png",
+   "fx-santa-frost-flake-c.png"
+  ]
+ },
+ "confetti": {
+  "santa-confetti": {
+   "strip": "event-santa-confetti-strip",
+   "size": [
+    32,
+    32
+   ],
+   "frames": 6,
+   "frameMode": "pick one frame per piece (6 shapes), rotate in code",
+   "type": "circle",
+   "cx": 16,
+   "cy": 16,
+   "r": 12,
+   "hazard": false,
+   "event": "confettiShower",
+   "art": "carnival confetti pieces (curl, star, dot, square, heart, streamer)"
+  },
+  "santa-confetti-burst": {
+   "strip": "fx-santa-confetti-burst-strip",
+   "size": [
+    160,
+    160
+   ],
+   "frames": 6,
+   "fps": 12,
+   "anchor": [
+    80,
+    80
+   ],
+   "art": "catch burst with +1, play once"
+  }
  }
 }
