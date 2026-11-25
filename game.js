@@ -1,5 +1,5 @@
 // =============================================================================
-// Move Cosy engine v0.8.3 — seasonal kawaii Flappy-style game. Packs: Ghost (packs/ghost/pack.js), Santa (packs/santa/pack.js).
+// Move Cosy engine v0.8.8 — seasonal kawaii Flappy-style game. Packs: Ghost (packs/ghost/pack.js), Santa (packs/santa/pack.js).
 // v0.7.0: the engine is split from the data. Everything themed (stages, art, obstacles, floaters, events,
 // cutscenes, deaths, score-card frames, audio slots, UI accents) lives in a pack (docs/ARCHITECTURE.md);
 // the global feel (tap-to-float physics CONFIG.ghost, speed-up CONFIG.speed, gap/spacing, patterns,
@@ -13,7 +13,7 @@
 //   ?golden=1|0 (golden run)  ?god=1 (no deaths, hits logged)  ?effects=0  ?pack=<id> (v0.7.0)
 // =============================================================================
 const CONFIG = {
-  build: { version: '0.8.7', title: 'Move Cosy' }, // [build] overall title (picker header, document title)
+  build: { version: '0.8.8', title: 'Move Cosy' }, // [build] overall title (picker header, document title)
   // v0.7.0 packs: packs/manifest.js (window.MOVE_COSY_PACKS) lists every version; only the chosen pack file is loaded.
   packs: {
     manifestGlobal: 'MOVE_COSY_PACKS',
@@ -822,12 +822,19 @@ function startEngine(PACK) {
   let hitboxOffsetY = 0;
   let hitboxSource = 'config';
 
+  // v0.8.8: cache-bust image/JSON URLs with the build version so a phone does not keep a stale pack after a deploy.
+  function assetUrl(src) {
+    if (!src || /^(data|blob|javascript):/i.test(src)) return src;
+    const q = 'v=' + encodeURIComponent(CONFIG.build.version);
+    if (src.includes(q)) return src;
+    return src + (src.includes('?') ? '&' : '?') + q;
+  }
   function loadImage(src) {
     return new Promise(resolve => {
       const img = new Image();
       img.onload = () => { sprites.loaded.push(src); resolve(img); };
       img.onerror = () => { sprites.missing.push(src); resolve(null); };
-      img.src = src;
+      img.src = assetUrl(src);
     });
   }
 
@@ -855,7 +862,7 @@ function startEngine(PACK) {
     sprites.res = A.resolutions[folder];
     const dir = `${A.pngDir}/${folder}/`;
     const hbJob = (A.hitboxes && window.fetch)
-      ? fetch(A.hitboxes).then(r => (r.ok ? r.json() : null)).catch(() => null)
+      ? fetch(assetUrl(A.hitboxes)).then(r => (r.ok ? r.json() : null)).catch(() => null)
       : Promise.resolve(null);
 
     const all = hbJob.then(hb => {
@@ -3641,6 +3648,7 @@ function startEngine(PACK) {
         const line = fit.text + suffix; ctx.font = f(fit.size);
         game.stats.nameDraw = { where: 'ready', line, name: fit.text, suffix, size: fit.size, truncated: fit.truncated, kept: fit.kept, width: ctx.measureText(line).width, maxWidth: maxW, canvasW: W };
         text(line, W / 2, H - CONFIG.world.groundHeight / 2, fit.size);
+        text('v' + CONFIG.build.version, W / 2, H - 14, 11, { weight: 'normal' }); // v0.8.8: build id, so a cached older engine is obvious
       }
       return;
     }
@@ -3874,7 +3882,7 @@ function startEngine(PACK) {
   // ---- v0.5 'Who's playing?' + top-10 (small DOM overlay, mobile-friendly) ----------------------
   const ui = { bar: null, modal: null, open: null, shown: null };
   const icon = (key, color) => { const P = CONFIG.profileIcons, i = el('img', 'gg-ic'); i.alt = ''; i.width = i.height = P.size; i.draggable = false;
-    i.src = P.dir + P[key].replace('{size}', P.size * 1.5 >= 48 ? 48 : P.size).replace('{color}', color || ''); i.onerror = () => i.remove(); return i; };
+    i.src = assetUrl(P.dir + P[key].replace('{size}', P.size * 1.5 >= 48 ? 48 : P.size).replace('{color}', color || '')); i.onerror = () => i.remove(); return i; };
   const chipColor = id => { const P = CONFIG.profileIcons, i = ScoreService.getProfiles().findIndex(p => p.id === id); return P.chipColors[Math.max(0, i) % P.chipColors.length]; };
   const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
   function buildUi() {
@@ -4088,14 +4096,14 @@ function startEngine(PACK) {
   function loadShareLayout() {
     if (share.layout) return Promise.resolve(share.layout);
     const fb = SHC().areas;
-    const job = window.fetch && SHC().layout ? fetch(SHC().layout).then(r => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null);
+    const job = window.fetch && SHC().layout ? fetch(assetUrl(SHC().layout)).then(r => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null);
     return job.then(j => { const out = {}; for (const k of Object.keys(fb)) out[k] = Object.assign({}, fb[k], j && j.areas && j.areas[k] ? j.areas[k] : {}); share.layout = out; return out; });
   }
   function loadFrame(sid) {
     const S = SHC(), f = S.frameStageFile[sid] || sid;
     if (!S.frameFile) return Promise.resolve(null); // v0.7.0: a pack without card frames -> drawn frame
     const tryLoad = suffix => { const src = S.frameFile.replace('{stage}', suffix); if (share.frames.has(src)) return share.frames.get(src);
-      const p = new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); share.frames.set(src, p); return p; };
+      const p = new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = assetUrl(src); }); share.frames.set(src, p); return p; };
     if ((S.frameGeneric || []).includes(sid)) return tryLoad(''); // v0.6: no Void frame from Art yet
     return tryLoad('-' + f).then(i => i || tryLoad(''));
   }
