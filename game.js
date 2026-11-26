@@ -1,5 +1,5 @@
 // =============================================================================
-// Move Cosy engine v0.8.8 — seasonal kawaii Flappy-style game. Packs: Ghost (packs/ghost/pack.js), Santa (packs/santa/pack.js).
+// Move Cosy engine v0.8.9 — seasonal kawaii Flappy-style game. Packs: Ghost (packs/ghost/pack.js), Santa (packs/santa/pack.js).
 // v0.7.0: the engine is split from the data. Everything themed (stages, art, obstacles, floaters, events,
 // cutscenes, deaths, score-card frames, audio slots, UI accents) lives in a pack (docs/ARCHITECTURE.md);
 // the global feel (tap-to-float physics CONFIG.ghost, speed-up CONFIG.speed, gap/spacing, patterns,
@@ -13,7 +13,7 @@
 //   ?golden=1|0 (golden run)  ?god=1 (no deaths, hits logged)  ?effects=0  ?pack=<id> (v0.7.0)
 // =============================================================================
 const CONFIG = {
-  build: { version: '0.8.8', title: 'Move Cosy' }, // [build] overall title (picker header, document title)
+  build: { version: '0.8.9', title: 'Move Cosy' }, // [build] overall title (picker header, document title)
   // v0.7.0 packs: packs/manifest.js (window.MOVE_COSY_PACKS) lists every version; only the chosen pack file is loaded.
   packs: {
     manifestGlobal: 'MOVE_COSY_PACKS',
@@ -211,7 +211,7 @@ const CONFIG = {
     skyScale: 0.5,         // launch-sky backdrop likewise
     // v0.8.4 (S25 fill): the 360x640 world letterboxes on tall phones (384x832 -> 75 css px bands). The bands are filled
     // with the frame's own top/bottom edge, blurred across `cols` samples (GPU blit, no readback); world/physics unchanged.
-    bleed: { enabled: true, cols: 16, srcRows: 3, minBandPx: 1, actorClipTop: 4 }, // v0.8.5: hero / boost flame / trail / rocket are clipped below world y actorClipTop (>= srcRows) so the top band never samples them
+    bleed: { enabled: true, cols: 16, rows: 1040, srcRows: 3, minBandPx: 1, actorClipTop: 4 }, // v0.8.5: hero / boost flame / trail / rocket are clipped below world y actorClipTop (>= srcRows) so the top band never samples them
     // v0.8.7: a 1.0-parallax ground lip so a pair-pause (TUNING v1.4, unchanged) does not look like the world slowed.
     // artNear (Santa): soft mounds in `fill` along GROUND_Y, always on so the cue does not pop at the warning.
     // Ghost already had 1.0 spikes in drawGround; those now use parallax/interval from here (look unchanged).
@@ -1044,7 +1044,7 @@ function startEngine(PACK) {
   }
   // v0.8.4: edge bleed canvases above/below the letterboxed world (pointer-events none: taps fall through to the window flap handler)
   const bleed = CONFIG.render.bleed.enabled ? ['top', 'bottom'].map(side => {
-    const c = document.createElement('canvas'); c.className = 'gg-bleed'; c.width = CONFIG.render.bleed.cols; c.height = 1;
+    const c = document.createElement('canvas'); c.className = 'gg-bleed'; c.width = CONFIG.render.bleed.cols; c.height = CONFIG.render.bleed.rows; // v0.8.9: tall enough to stay a GPU canvas (no per-frame readback); every row identical
     Object.assign(c.style, { position: 'fixed', left: '0', width: '100vw', pointerEvents: 'none', zIndex: '0', display: 'none', [side]: '0' });
     document.body.appendChild(c); return { side, c, x: c.getContext('2d'), h: 0 };
   }) : [];
@@ -1064,6 +1064,7 @@ function startEngine(PACK) {
     for (const b of bleed) {
       if (b.h < R.minBandPx) continue;
       b.x.drawImage(canvas, 0, b.side === 'top' ? 0 : canvas.height - rows, canvas.width, rows, 0, 0, R.cols, 1);
+      b.x.imageSmoothingEnabled = false; b.x.drawImage(b.c, 0, 0, R.cols, 1, 0, 1, R.cols, b.c.height - 1); b.x.imageSmoothingEnabled = true; // v0.8.9: copy row 0 down exactly (same look as one row stretched)
     }
   }
   window.addEventListener('resize', resize);
@@ -2351,7 +2352,7 @@ function startEngine(PACK) {
         loadImage(`${A.pngDir}/${CM.folder}/${CM.file.replace('{stage}', want)}`).then(img => (img && img.decode ? img.decode().then(() => img, () => img) : img)).then(img => { e.img = img; }); }
     }
     if (WARP.mist && WARP.mist.lazy && !warpMistReq && hop) { warpMistReq = true; const M = WARP.mist;
-      loadImage(`${A.pngDir}/${M.folder}/${M.file}`).then(img => { if (img && warpMistReq) sprites.ui.warpMist = img; }); }
+      loadImage(`${A.pngDir}/${M.folder}/${M.file}`).then(img => (img && img.decode ? img.decode().then(() => img, () => img) : img)).then(img => { if (img && warpMistReq) sprites.ui.warpMist = img; }); } // v0.8.9: decoded off the frame
   }
   const artBg = id => voidParts(id) || partsReadyFor(id) || !!(sprites.bg[`${id}-far`] && sprites.bg[`${id}-mid`] && sprites.bg[`${id}-near`]);
   const bgFactor = (id, layer) => { const B = A.backgrounds; return ((B.parallaxByStage[id] || {})[layer]) || B.parallax[layer]; };
@@ -2540,12 +2541,73 @@ function startEngine(PACK) {
   }
   function prewarm() { // queue (never build inline) everything the next stage change will need
     warmVoid();
+    warmStage();
     if (game.state === 'loading' || !artBg(stage().id)) return;
     const sc = canvas.height / H;
     for (const k of prewarmKeys()) { const e = layerCache.get(k); if (!(e && e.sc === sc) && building !== k && !buildQueue.includes(k)) buildQueue.push(k); }
     if (buildQueue.length) schedulePump();
     else if (!building && ++sweepN % CONFIG.render.evictSweepFrames === 0) evictLayers();
     lastFrameKeys = frameKeys; frameKeys = new Set();
+  }
+  // v0.8.9 (S25 stage-change hitch): before a stage switch, on idle time and one job per idle callback, decode the next
+  // stage's images (columns, event sheets, banner/burst/badge, city mist) and compose its background-parts slots, so the
+  // switch frame only blits. Same images, same composite code: nothing drawn differs, it is just ready earlier.
+  const warmC = document.createElement('canvas'); warmC.width = warmC.height = 1;
+  const warmX = warmC.getContext('2d', { willReadFrequently: true }); // CPU canvas: drawImage + a 1 px read forces the decode/raster now
+  let stageWarmKey = '', stageWarmQ = [], stageWarmBusy = false, stageWarmIdle = 0;
+  function warmTouch(src) { if (!src) return; try { warmX.drawImage(src, 0, 0); warmX.getImageData(0, 0, 1, 1); } catch (e) { /* ignore */ } } // 1:1 so the full-size decode is what gets cached
+  function stageWarmTargets() {
+    const i = game.stageIndex, nx = STAGES[i + 1], PSd = A.backgrounds.parts, ahead = (PSd && PSd.aheadPairs) || 3;
+    if (game.pendingStage != null) return [game.pendingStage];
+    if (nx && nx.startAt != null && game.pairs >= nx.startAt - ahead) return [i + 1];
+    if (nx && nx.id === WARP.target && warpFromHere() && warpPrewarmDue()) return [i + 1];
+    return [i]; // otherwise the current stage (its event sheets before the event fires; cheap once warm)
+  }
+  function stageWarmJobs(idx) {
+    const st = STAGES[idx], id = st.id, jobs = [], imgs = new Set();
+    const addSet = s => { if (s) for (const k of ['body', 'capTop', 'capBottom', 'lip']) if (s[k]) imgs.add(s[k]); };
+    for (const side of ['top', 'bottom']) for (const oid of Object.keys(st[side] || {})) {
+      const rid = CONFIG.objectAliases[oid] || oid, o = CONFIG.objects[rid];
+      if (o && o.tomb === 'random') for (const t of sprites.tombVariants || []) addSet(sprites.sets[t]); else addSet(sprites.sets[rid]);
+    }
+    const ev = st.event;
+    if (ev) for (const n of [ev.sheet, ev.popSheet, ev.burstSheet, 'warning', ...(ev.rowSheets || [])]) if (n && sprites.sheets[n]) imgs.add(sprites.sheets[n].img);
+    for (const k of [`banner-${id}`, `bannerBlank-${id}`, `burst-${id}`, `badge-${idx + 1}`]) if (sprites.ui[k]) imgs.add(sprites.ui[k]);
+    const imgJobs = [...imgs].map(img => () => { warmTouch(img); return true; });
+    if (CONFIG.transitions.art.cityMist) jobs.push(() => { const e = sprites.ui.cityMist; if (!e || e.id !== id) return true; if (!e.img) return false; warmTouch(e.img); return true; });
+    if (id === WARP.target && WARP.mist) jobs.push(() => { // the hop's mist: decode + its luminance gains now, not on the first mist frame
+      const img = sprites.ui.warpMist; if (!img) return !(WARP.mist.lazy || sprites.voidArt); // lazy: wait for the load
+      warmTouch(img); if (!mistGain) mistGain = mistGains(img); return true;
+    });
+    const partJobs = [];
+    if (sprites.partSets && sprites.partSets[id]) for (const layer of A.backgrounds.layers) { // two idle jobs per layer: compose, then raster
+      let built = null, composed = false;
+      partJobs.push(() => {
+        const v = partSetView(id); if (!v) return false; // parts still loading: retry on a later idle callback
+        const m = mainCtx.getTransform(), b0 = game.stats.partsBuilds, e = cachedPartSlot(v, layer, { a: m.a, d: m.d, f: m.f }); // the draw's own (float32) transform, so the frame gets a cache hit
+        built = e && game.stats.partsBuilds !== b0 ? e : null; composed = true; // a cache hit is already rastered
+        return true;
+      }, () => { if (!composed) return false; if (built) warmTouch(built.c); built = null; return true; });
+    }
+    return partJobs.concat(jobs, imgJobs); // background parts first (the big one), then the mists, then the sprite images
+  }
+  function warmStage() {
+    if (game.state !== 'playing' || stageWarmBusy) return;
+    const t = stageWarmTargets(), key = t.join(',') + '@' + canvas.height;
+    if (key !== stageWarmKey) { stageWarmKey = key; stageWarmQ = stageWarmJobs(t[0]); stageWarmIdle = 0; }
+    if (!stageWarmQ.length || (stageWarmIdle && --stageWarmIdle > 0)) return;
+    stageWarmBusy = true;
+    const run = dl => {
+      stageWarmBusy = false;
+      for (let n = 0; n < stageWarmQ.length; n++) { // at least one job; more while this idle slot has time left
+        const job = stageWarmQ.shift();
+        if (job()) game.stats.stageWarmJobs = (game.stats.stageWarmJobs || 0) + 1;
+        else { job.waiting = true; stageWarmQ.push(job); } // not ready yet (still loading): retry later
+        if (stageWarmQ.length && stageWarmQ.every(j => j.waiting)) { stageWarmQ.forEach(j => { j.waiting = false; }); stageWarmIdle = 10; return; } // only waiting jobs left: look again ~10 frames on
+        if (!dl || dl.didTimeout || dl.timeRemaining() < 6) return;
+      }
+    };
+    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 200 }); else setTimeout(run, 16);
   }
   const partsCache = new Map(); // v0.8.4: spec+layer -> { c, top, sc, d, f } (insertion order = LRU)
   function cachedPartSlot(v, layer, m) {
@@ -3634,6 +3696,7 @@ function startEngine(PACK) {
   function roundRect(x, y, w, h, r) {
     ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
   }
+  const hudName = { key: null, fit: null, stat: null };
   function drawHUD() {
     const blink = 0.6 + 0.4 * Math.sin(game.time * 4);
     if (game.state === 'loading') { ctx.globalAlpha = blink; text('Loading…', W / 2, H / 2, 24); ctx.globalAlpha = 1; return; }
@@ -3663,10 +3726,14 @@ function startEngine(PACK) {
       }
       text(`Best ${game.best}`, W - 12, 22, 14, { align: 'right', weight: 'normal' });
       { // v0.6.2: name never runs into 'Best N'
-        const Hc = CONFIG.ui.nameFit.hud, f = hudFont('normal'); ctx.font = f(14); const bw = ctx.measureText(`Best ${game.best}`).width;
-        const maxW = W - 24 - bw - Hc.gap, fit = fitName(ctx, game.player, () => 0, maxW, Hc.size, Hc.minSize, Hc.step, f);
-        game.stats.nameDrawHud = { name: fit.text, size: fit.size, truncated: fit.truncated, width: ctx.measureText(fit.text).width, maxWidth: maxW };
-        text(fit.text, 12, 22, fit.size, { align: 'left', weight: 'normal' });
+        const hk = game.player + '\u0000' + game.best; // v0.8.9: fit once per name/best, not every frame (same result)
+        if (hudName.key !== hk) {
+          const Hc = CONFIG.ui.nameFit.hud, f = hudFont('normal'); ctx.font = f(14); const bw = ctx.measureText(`Best ${game.best}`).width;
+          const maxW = W - 24 - bw - Hc.gap, fit = fitName(ctx, game.player, () => 0, maxW, Hc.size, Hc.minSize, Hc.step, f);
+          hudName.key = hk; hudName.fit = fit; hudName.stat = { name: fit.text, size: fit.size, truncated: fit.truncated, width: ctx.measureText(fit.text).width, maxWidth: maxW };
+        }
+        game.stats.nameDrawHud = hudName.stat;
+        text(hudName.fit.text, 12, 22, hudName.fit.size, { align: 'left', weight: 'normal' });
       }
       drawSpecialHud();
       if (game.banner) drawBanner();
@@ -3876,7 +3943,7 @@ function startEngine(PACK) {
   game.dieAs = (cause, obj) => { if (game.state !== 'playing') return false; const god = game.god; game.god = false; die(cause, obj); game.god = god; return game.state; };
   game.worldNow = () => worldNow();
   game.ui = { openProfiles: () => openProfiles(), openTop: () => openTop(), openPacks: () => openPacks(), close: () => closeUi() };
-  game._dbg = { pairHits: (p, cx, cy, r) => pairHits(p, cx, cy, r), colHitboxes: (p, side) => columnHitboxes(p, side), lipBlocks: (c, x, hw, top) => lipBlocks(c, x, hw, top), partsMB: () => +partsMB().toFixed(2), partsLoaded: () => Object.keys(partImg).filter(f => partImg[f]), cityMistMB: () => { const e = sprites.ui.cityMist; return e && e.img ? +(e.img.naturalWidth * e.img.naturalHeight * 4 / 1048576).toFixed(2) : 0; }, cityMistId: () => (sprites.ui.cityMist ? sprites.ui.cityMist.id : null), warpMistMB: () => { const i = sprites.ui.warpMist; return i ? +(i.naturalWidth * i.naturalHeight * 4 / 1048576).toFixed(2) : 0; }, nextReady: () => { const n = STAGES[game.stageIndex + 1]; if (!n || !artBg(n.id) || voidParts(n.id) || (n.id === WARP.target && !warpPrewarmDue())) return true; const sc = canvas.height / H; return prewarmKeys().filter(k => k.includes(n.id) || k === 'launchSky').every(k => { const e = layerCache.get(k); return e && e.sc === sc; }) && A.backgrounds.layers.every(l => warpDeferred(n.id, l) || prewarmKeys().includes(`${n.id}-${l}`)); }, bgSettled: () => A.backgrounds.layers.every(l => { const st = bgState[l]; return st && st.cur === stage().id && !st.trans && !st.fade; }), prewarmReady: () => !building && !buildQueue.length && prewarmKeys().every(k => { const e = layerCache.get(k); return e && e.sc === canvas.height / H; }), hbFallbacks, coverageBreaks, hitsShapes, resolveColumn, stageIndexForPairs, pairHits, columnHitboxes, multiplier, physics, hazardY, speedFor, gapFor, spacingFor, EVENTS: EVENT_BY_ID, EVENT_TYPES: EVENTS, currentSpeed, specialCfg, stageGap, stageSpacing, stageStartPairs, transitionActive, patternRunning, hitbox: () => ({ r: hitboxRadius, off: hitboxOffsetY }), getLayer, layerCache, layerMeta, layerGeom, voidPartsReady, objectOf, clipGraphemes, warmLog, spawnPairForTest: () => { const n = game.cols.length; spawnPair(W + 100, { centre: H / 2, pattern: 'random' }); return n < game.cols.length ? game.cols.splice(n, 1)[0] : null; }, voidPartsMB: () => (sprites.voidParts ? +sprites.voidParts.mb.toFixed(2) : 0), mistMB: () => { const i = sprites.ui.warpMist; return i ? +(i.naturalWidth * i.naturalHeight * 4 / 1048576).toFixed(2) : 0; } };
+  game._dbg = { partsCache: () => partsCache, stageWarm: () => ({ key: stageWarmKey, q: stageWarmQ.length, idle: stageWarmIdle, busy: stageWarmBusy }), pairHits: (p, cx, cy, r) => pairHits(p, cx, cy, r), colHitboxes: (p, side) => columnHitboxes(p, side), lipBlocks: (c, x, hw, top) => lipBlocks(c, x, hw, top), partsMB: () => +partsMB().toFixed(2), partsLoaded: () => Object.keys(partImg).filter(f => partImg[f]), cityMistMB: () => { const e = sprites.ui.cityMist; return e && e.img ? +(e.img.naturalWidth * e.img.naturalHeight * 4 / 1048576).toFixed(2) : 0; }, cityMistId: () => (sprites.ui.cityMist ? sprites.ui.cityMist.id : null), warpMistMB: () => { const i = sprites.ui.warpMist; return i ? +(i.naturalWidth * i.naturalHeight * 4 / 1048576).toFixed(2) : 0; }, nextReady: () => { const n = STAGES[game.stageIndex + 1]; if (!n || !artBg(n.id) || voidParts(n.id) || (n.id === WARP.target && !warpPrewarmDue())) return true; const sc = canvas.height / H; return prewarmKeys().filter(k => k.includes(n.id) || k === 'launchSky').every(k => { const e = layerCache.get(k); return e && e.sc === sc; }) && A.backgrounds.layers.every(l => warpDeferred(n.id, l) || prewarmKeys().includes(`${n.id}-${l}`)); }, bgSettled: () => A.backgrounds.layers.every(l => { const st = bgState[l]; return st && st.cur === stage().id && !st.trans && !st.fade; }), prewarmReady: () => !building && !buildQueue.length && prewarmKeys().every(k => { const e = layerCache.get(k); return e && e.sc === canvas.height / H; }), hbFallbacks, coverageBreaks, hitsShapes, resolveColumn, stageIndexForPairs, pairHits, columnHitboxes, multiplier, physics, hazardY, speedFor, gapFor, spacingFor, EVENTS: EVENT_BY_ID, EVENT_TYPES: EVENTS, currentSpeed, specialCfg, stageGap, stageSpacing, stageStartPairs, transitionActive, patternRunning, hitbox: () => ({ r: hitboxRadius, off: hitboxOffsetY }), getLayer, layerCache, layerMeta, layerGeom, voidPartsReady, objectOf, clipGraphemes, warmLog, spawnPairForTest: () => { const n = game.cols.length; spawnPair(W + 100, { centre: H / 2, pattern: 'random' }); return n < game.cols.length ? game.cols.splice(n, 1)[0] : null; }, voidPartsMB: () => (sprites.voidParts ? +sprites.voidParts.mb.toFixed(2) : 0), mistMB: () => { const i = sprites.ui.warpMist; return i ? +(i.naturalWidth * i.naturalHeight * 4 / 1048576).toFixed(2) : 0; } };
   }
 
   // ---- v0.5 'Who's playing?' + top-10 (small DOM overlay, mobile-friendly) ----------------------
